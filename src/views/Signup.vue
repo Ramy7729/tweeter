@@ -67,7 +67,7 @@ export default {
       }).then((res) => {
         console.log(res);
         this.$store.commit('loginUser', res.data);
-        this.$router.push({name: 'TweeterMain'})
+        this.$router.push({name: 'TweeterMain'});
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;

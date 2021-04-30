@@ -4,35 +4,61 @@
     <h1>Tweeter</h1>
    </header>
     <main>
-      <profile-card :userId="userId"/>
+      <profile-card/>
       <div>
-        <textarea name="createPost" id="createPost" cols="30" rows="4" placeholder="Make a post" ></textarea>
+        <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a post" ></textarea>
       </div>
       <div class="tweetButton">
-        <button>Tweet</button>
+        <button @click="submitPost">Tweet</button>
       </div>
-      <tweets/>
+      <posts/>
     </main>
   </div>
 </template>
 
 <script>
-// import axios from "axios";
-// import cookies from "vue-cookies";
+import axios from "axios";
+
 import ProfileCard from '../components/ProfileCard.vue'
-import Tweets from "../components/Tweets.vue"
+import Posts from "../components/Posts.vue"
 export default {
   name: 'tweeter-main',
   components: {
-    Tweets,
+    Posts,
     ProfileCard,
   },
-  computed: {
-    userId() {
-      return this.$store.state.userInfo.userId; 
+  data() {
+    return {
+      errorMessage: "",
+    };
+  },
+  methods: {
+    submitPost() {
+      if (!document.getElementById("postContent").value) {
+        this.errorMessage = "Please enter your message";
+        return;
+      }
+      axios.request({
+        url: "https://tweeterest.ml/api/tweets",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          "loginToken": this.$store.state.userInfo.loginToken,
+          "content": document.getElementById("postContent").value,
+        },
+      }).then((res) => {
+        console.log(res);
+
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
     }
   },
-  
+ 
 }
 </script>
 <style scoped>
@@ -85,6 +111,4 @@ h2 {
 header {
   padding: 17px
 }
-
-
 </style>
