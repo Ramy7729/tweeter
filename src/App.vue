@@ -1,12 +1,33 @@
 <template>
   <div id="app">
-    <div id="nav">
-    </div>
+    <!-- <div id="nav">
+    </div> -->
     <router-view/>
   </div>
 </template>
 
+<script>
+import cookies from "vue-cookies";
+
+export default {
+  created () {
+    let userInfo = cookies.get('userInfo');
+    if (userInfo) {
+      this.$store.commit('loginUser', userInfo);
+    }
+    
+  },
+
+};
+</script>
+
 <style>
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,9 +36,9 @@
   color: #2c3e50;
 }
 
-#nav {
+/* #nav {
   padding: 30px;
-}
+} */
 
 #nav a {
   font-weight: bold;

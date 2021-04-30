@@ -1,5 +1,6 @@
 <template>
   <main>
+    <h1>Tweeter</h1>
     <form action="javascript:void(0)">
       <input type="text" id="usernameInput" placeholder="Username" />
       <input type="text" id="emailInput" placeholder="Email" />
@@ -14,6 +15,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Signup",
   data() {
@@ -21,7 +24,6 @@ export default {
       errorMessage: "",
     };
   },
-
   methods: {
     signup() {
       if (document.getElementById("passwordInput1").value !== document.getElementById("passwordInput2").value  ) {
@@ -48,6 +50,28 @@ export default {
         this.errorMessage = "Please enter your bio";
         return;
       }
+      axios.request({
+        url: "https://tweeterest.ml/api/users",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          email: document.getElementById("emailInput").value,
+          username: document.getElementById("usernameInput").value,
+          password: document.getElementById("passwordInput1").value,
+          bio: document.getElementById("bioInput").value,
+          birthdate: document.getElementById("birthDateInput").value,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.$store.commit('loginUser', res.data);
+        this.$router.push({name: 'TweeterMain'})
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
     },
   },
 };
@@ -58,5 +82,12 @@ form {
   display: grid;
   grid-template-columns:  1fr;
   place-items: center;
+  row-gap: 7px;
+  border-radius: 7px;
+  margin-top: 20px;
+}
+
+input {
+  padding: 12px 7px 7px;
 }
 </style>
