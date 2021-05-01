@@ -4,6 +4,8 @@ import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
 import TweeterMain from '../views/TweeterMain.vue';
+import Profile from '../views/Profile.vue';
+import Users from '../views/Users.vue';
 
 Vue.use(VueRouter);
 
@@ -22,6 +24,16 @@ const routes = [
     path: '/tweetermain',
     name: 'TweeterMain',
     component: TweeterMain
+  },
+  {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: Profile
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: Users
   },
 ]
 

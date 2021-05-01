@@ -1,17 +1,16 @@
 <template>
   <div>
-   <header>
-    <h1>Tweeter</h1>
-   </header>
+    <page-header/>
     <main>
-      <profile-card/>
+      <profile-card :userId="userId"/>
       <div>
         <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a post" ></textarea>
       </div>
       <div class="tweetButton">
-        <button @click="submitPost">Tweet</button>
+        <button @click="submitPost">MOO</button>
+        <router-link :to="{name: 'Users'}">Users</router-link>
       </div>
-      <posts/>
+      <posts :userIds="followingUserIds" />
     </main>
   </div>
 </template>
@@ -19,18 +18,32 @@
 <script>
 import axios from "axios";
 
-import ProfileCard from '../components/ProfileCard.vue'
-import Posts from "../components/Posts.vue"
+import ProfileCard from '../components/ProfileCard.vue';
+import Posts from "../components/Posts.vue";
+import PageHeader from '../components/PageHeader.vue';
+
 export default {
   name: 'tweeter-main',
   components: {
     Posts,
     ProfileCard,
+    PageHeader,
   },
   data() {
     return {
       errorMessage: "",
     };
+  },
+  computed: {
+    userId() {
+      return this.$store.state.userInfo.userId; 
+    },
+    followingUserIds() {
+      let followingUserIds = [
+        this.$store.state.userInfo.userId,
+      ];
+      return followingUserIds;
+    }
   },
   methods: {
     submitPost() {
@@ -58,9 +71,9 @@ export default {
       });
     }
   },
- 
 }
 </script>
+
 <style scoped>
 .twitterProfile {
   display: grid;
@@ -108,7 +121,8 @@ h2 {
   font-size: 1.3em
 }
 
-header {
-  padding: 17px
+img {
+  height: 50px;
+ 
 }
 </style>

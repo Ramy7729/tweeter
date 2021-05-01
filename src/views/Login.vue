@@ -1,6 +1,7 @@
 <template>
   <main>
-    <h1>Tweeter</h1>
+    <h1>MOO</h1>
+    <h2>Make your voice herd</h2>
     <form action="javascript:void(0)">
       <input type="text" id="emailInput" placeholder="email" />
       <input type="password" id="passwordInput" placeholder="password" />
@@ -57,21 +58,6 @@ export default {
         }
         this.errorMessage = err;
       });
-
-
-      // ===========================================
-      // DELETE ME!!
-      // ===========================================
-      // this.$store.commit('loginUser', { 
-      //   "userId": 23,
-      //   "email": "cindyLou@suess.com",
-      //   "username": "CindyLou",
-      //   "bio": "I just want everyone to be together on christmas.",
-      //   "birthdate": "1993-07-26",
-      //   "loginToken": "LIAbfvh341uNAS314"
-      // });
-      // ===========================================
-
     }
   }
 };
@@ -84,14 +70,19 @@ form {
   place-items: center;
   padding: 17px;
   row-gap: 7px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 button {
   padding: 0 27px;
-  
+}
+main {
+  background-image: url("../assets/cow.jpg");
+  background-size: cover;
+  height: 100vh;
 }
 
-h1 {
-  background-color: #7ECFD4;
-  
-}
 </style>

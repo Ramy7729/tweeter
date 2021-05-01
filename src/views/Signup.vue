@@ -1,17 +1,21 @@
 <template>
-  <main>
-    <h1>Tweeter</h1>
-    <form action="javascript:void(0)">
-      <input type="text" id="usernameInput" placeholder="Username" />
-      <input type="text" id="emailInput" placeholder="Email" />
-      <input type="password" id="passwordInput1" placeholder="Password"/>
-      <input type="password" id="passwordInput2" placeholder="Retype Password"/>
-      <input type="date" id="birthDateInput" placeholder="Date of Birth"/>
-      <textarea id="bioInput" placeholder="Bio"/>
-      <h1>{{ errorMessage }}</h1>
-      <button @click="signup">Sign up</button>
-    </form>
-  </main>
+  <div>
+    <main>
+      <h1>MOO</h1>
+      <h2>Make your voice herd</h2>
+      <form action="javascript:void(0)">
+        <input type="text" id="usernameInput" placeholder="Username" />
+        <input type="text" id="emailInput" placeholder="Email" />
+        <input type="password" id="passwordInput1" placeholder="Password"/>
+        <input type="password" id="passwordInput2" placeholder="Retype Password"/>
+        <input type="date" id="birthDateInput" placeholder="Date of Birth"/>
+        <textarea id="bioInput" placeholder="Bio"/>
+        <input type="text" id="userImage" placeholder="Upload your profile image"/>
+        <h1>{{ errorMessage }}</h1>
+        <button @click="signup">Sign up</button>
+      </form>
+    </main>
+  </div>  
 </template>
 
 <script>
@@ -63,6 +67,7 @@ export default {
           password: document.getElementById("passwordInput1").value,
           bio: document.getElementById("bioInput").value,
           birthdate: document.getElementById("birthDateInput").value,
+          imageUrl: document.getElementById("userImage").value,
         },
       }).then((res) => {
         console.log(res);
@@ -78,6 +83,13 @@ export default {
 </script>
 
 <style scoped>
+main {
+  background-image: url("../assets/cow111.jpg");
+  height: 100vh;
+  background-size: cover;
+  /* background-position: 0%;  */
+
+}
 form {
   display: grid;
   grid-template-columns:  1fr;
@@ -85,6 +97,9 @@ form {
   row-gap: 7px;
   border-radius: 7px;
   margin-top: 20px;
+}
+h1, h2 {
+  color: white;
 }
 
 input {
