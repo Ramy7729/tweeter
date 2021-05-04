@@ -4,10 +4,10 @@
     <main>
       <form action="javascript:void(0)">
         <h2>Edit Profile</h2>
-        <input type="text" id="usernameInput" placeholder="Username" />
-        <input type="text" id="emailInput" placeholder="Email" />
-        <input type="date" id="birthDateInput" placeholder="Date of Birth"/>
-        <textarea id="bioInput" placeholder="Bio"/>
+        <input type="text" id="usernameInput" placeholder="Username" :value="user.username"/>
+        <input type="text" id="emailInput" placeholder="Email" :value="user.email"/>
+        <input type="date" id="birthDateInput" placeholder="Date of Birth" :value="user.birthdate"/>
+        <textarea id="bioInput" placeholder="Bio"  :value="user.bio"/>
         <input type="text" id="userImage" placeholder="Enter a url for your image"/>
         <input type="text" id="bannerImage" placeholder="Enter a url for your banner"/>
         <h1>{{ errorMessage }}</h1>
@@ -19,7 +19,7 @@
 
 <script>
 import PageHeader from '../components/PageHeader.vue';
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "profile-edit",
@@ -32,33 +32,39 @@ export default {
       errorMessage: "",
     };
   },
-//   methods: {
-//     edit() {
-//       axios.request({
-//         url: "https://tweeterest.ml/api/users",
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
-//         },
-//         data: {
-//           email: document.getElementById("emailInput").value,
-//           username: document.getElementById("usernameInput").value,
-//           password: document.getElementById("passwordInput1").value,
-//           bio: document.getElementById("bioInput").value,
-//           birthdate: document.getElementById("birthDateInput").value,
-//           imageUrl: document.getElementById("userImage").value,
-//         },
-//       }).then((res) => {
-//         console.log(res);
-//         this.$store.commit('loginUser', res.data);
-//         this.$router.push({name: 'TweeterMain'});
-//       }).catch((err) => {
-//         console.log(err);
-//         this.errorMessage = err;
-//       });
-//     },
-//   },
+  computed: {
+    user() {
+      return this.$store.state.userInfo;
+    }
+  },
+  methods: {
+    edit() {
+      axios.request({
+        url: "https://tweeterest.ml/api/users",
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          email: document.getElementById("emailInput").value,
+          username: document.getElementById("usernameInput").value,
+          bio: document.getElementById("bioInput").value,
+          birthdate: document.getElementById("birthDateInput").value,
+          loginToken: this.$store.state.userInfo.loginToken
+          // imageUrl: document.getElementById("userImage").value,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        res.data.loginToken = this.$store.state.userInfo.loginToken;
+        this.$store.commit('loginUser', res.data);
+        this.$router.push({name: 'Profile', params: { id: this.$store.state.userInfo.userId }});
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
+    },
+  },
 };
 </script>
 
