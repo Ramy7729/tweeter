@@ -2,15 +2,23 @@
   <div>
     <page-header/>
     <main>
-      <profile-card :userId="userId"/>
-      <div>
-        <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a post" ></textarea>
-      </div>
-      <div class="tweetButton">
-        <button @click="submitPost">MOO</button>
+      <section class="sidePanel" >
+        <router-link :to="{name: 'TweeterMain'}">Home</router-link>
+        <router-link :to="{name: 'Profile'}">Profile</router-link>
         <router-link :to="{name: 'Users'}">Users</router-link>
-      </div>
-      <posts :userIds="followingUserIds" />
+      </section>
+      <div class="center">
+        <section class="mainGrid">
+          <profile-card :userId="userId"/>
+          <div>
+            <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a post" ></textarea>
+          </div>
+          <div class="tweetButton">
+            <button @click="submitPost">MOO</button>
+          </div>
+          <router-link to="/comments"><posts class="noDeco"   :userIds="followingUserIds" /></router-link> 
+        </section>
+      </div>  
     </main>
   </div>
 </template>
@@ -32,18 +40,37 @@ export default {
   data() {
     return {
       errorMessage: "",
+      followingUserIds: [],
     };
   },
   computed: {
     userId() {
       return this.$store.state.userInfo.userId; 
     },
-    followingUserIds() {
-      let followingUserIds = [
-        this.$store.state.userInfo.userId,
-      ];
-      return followingUserIds;
-    }
+  },
+  mounted () {
+    let followingUserIds = [
+      this.$store.state.userInfo.userId,
+    ];
+    axios.request({
+      url: "https://tweeterest.ml/api/follows",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+      },
+      params: {
+        userId: this.$store.state.userInfo.userId,
+      },
+    }).then((res) => {
+      for (const user of res.data) {
+        followingUserIds.push(user.userId);
+      }
+      this.followingUserIds = followingUserIds;
+    }).catch((err) => {
+      console.log(err);
+      this.errorMessage = err;
+    });
   },
   methods: {
     submitPost() {
@@ -64,7 +91,7 @@ export default {
         },
       }).then((res) => {
         console.log(res);
-
+        document.getElementById("postContent").value = "";
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;
@@ -80,13 +107,11 @@ export default {
   justify-items: left;
   margin-left: 20px;
   row-gap: 7px;
-  
 }
 
 .tweetButton {
   display: grid;
   grid-auto-flow: column;
-  /* justify-items: left; */
   margin-left: 20px;
   margin-top: 17px;
   place-items: center;
@@ -105,12 +130,6 @@ textarea {
   width: 100vw;
   margin-top: 11px;
   font-family: 'Times New Roman', Times, serif;
-  
-}
-
-article {
-  display: grid;
-  row-gap: 7px;
 }
 
 header {
@@ -123,6 +142,65 @@ h2 {
 
 img {
   height: 50px;
- 
 }
+
+.sidePanel {
+  visibility: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+@media screen and (min-width: 900px) {
+  
+  .sidePanel {
+    display: flex;
+    flex-flow: column wrap;
+    row-gap: 70px;
+    font-size: 2em;
+    border-right: 1px solid grey;
+    margin-left: 137px;
+    margin-top: 56px;
+    height: 100%;
+    width: 11vw;
+    /* background-color:	#FB8E7E; */
+    padding-top: 20px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    visibility: visible;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  a:hover {
+    background-color: lightblue;
+    border-radius: 20px 20px ;
+  }
+  
+  .mainGrid {
+    max-width: 700px;
+    background-color: #F9F9F9;
+    margin-top: 20px;
+  }
+
+  textarea {
+    max-width: 700px;
+  }
+
+  .center {
+    display: grid;
+    place-items: center;
+    
+  }
+  
+}
+
 </style>

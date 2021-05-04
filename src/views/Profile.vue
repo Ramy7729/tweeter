@@ -2,65 +2,36 @@
   <div>
     <page-header/>
     <main>
-      <div class="twitterProfile">
-        <div class="twoColGrid">
-          <img src="../assets/doggo.jpg" alt="">
-          <div>
-            <h2>Name Name</h2>
-            <p>somthing somthing</p>
-            <p></p>
-          </div>
-        </div>
-      </div>
-      <other-posts/>
+      <profile-card :userId="userId"/>
+      <router-link v-if="userId == loginId" to="/profileedit"><button>Edit Profile</button></router-link>  
+      <posts :userIds="[userId]" />
     </main>
   </div>
 </template>
 
 <script>
-import OtherPosts from '../components/OtherPosts.vue';
+
 // import axios from "axios";
 import PageHeader from '../components/PageHeader.vue';
+import Posts from '../components/Posts.vue';
+import ProfileCard from '../components/ProfileCard.vue';
 
 export default {
   name: "Profile",
   components: {
     PageHeader,
-    OtherPosts
+    ProfileCard,
+    Posts,
   },
-  data() {
-    OtherPosts
-    return {
-      errorMessage: "",
-    };
+  computed: {
+    userId() {
+      return parseInt(this.$route.params.id); 
+    },
+    loginId() {
+      return this.$store.state.userInfo.userId;
+    }
   },
-//   methods: {
-    
-//       axios.request({
-//         url: "https://tweeterest.ml/api/users",
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
-//         },
-//         data: {
-//           email: document.getElementById("emailInput").value,
-//           username: document.getElementById("usernameInput").value,
-//           password: document.getElementById("passwordInput1").value,
-//           bio: document.getElementById("bioInput").value,
-//           birthdate: document.getElementById("birthDateInput").value,
-//           imageUrl: document.getElementById("userImage").value,
-//         },
-//       }).then((res) => {
-//         console.log(res);
-//         this.$store.commit('loginUser', res.data);
-//         this.$router.push({name: 'TweeterMain'});
-//       }).catch((err) => {
-//         console.log(err);
-//         this.errorMessage = err;
-//       });
-//     },
-//   },
+  
 };
 </script>
 

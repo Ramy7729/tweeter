@@ -1,10 +1,16 @@
 <template>
-  <main>
+  <div>
     <page-header/>
-    <div>
-      <profile-card v-for="user of users" :key="user.userId" :user="user"/>
-    </div>
-  </main>
+    <div class="center"> 
+      <main> 
+        <div>
+          <div>
+            <profile-card v-for="user of users" :key="user.userId" :user="user"/>
+          </div>
+        </div>   
+      </main>
+    </div>  
+  </div> 
 </template>
 
 <script>
@@ -47,6 +53,18 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (min-width: 900px) {
+  main {
+    max-width: 700px;
+    display: grid;
+    
+  }
 
+  .center {
+    display: grid;
+    place-items: center;
+   
+  }
+} 
 
 </style>

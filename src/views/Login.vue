@@ -1,14 +1,15 @@
 <template>
   <main>
-    <h1>MOO</h1>
-    <h2>Make your voice herd</h2>
+    <div class="heroText" >
+      <h1>MOO.</h1>
+      <h2>Make your voice herd</h2>
+    </div>  
     <form action="javascript:void(0)">
       <input type="text" id="emailInput" placeholder="email" />
       <input type="password" id="passwordInput" placeholder="password" />
       <button @click="login">Login</button>
       <p>{{ errorMessage }}</p>
 			<router-link to="/signup"><button>Sign Up</button></router-link>
-      <router-link to="/TweeterMain"><button>Tweeter</button></router-link>
     </form>
     
   </main>
@@ -64,6 +65,12 @@ export default {
 </script>
 
 <style scoped>
+.heroText {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 form {
   display: grid;
   grid-template-columns: 1fr;
@@ -76,8 +83,14 @@ form {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+input {
+  border-radius: 20px 20px;
+  padding: 7px;
+}
 button {
-  padding: 0 27px;
+  padding: 7px 77px;
+  border-radius: 20px 20px;
+
 }
 main {
   background-image: url("../assets/cow.jpg");
@@ -85,4 +98,13 @@ main {
   height: 100vh;
 }
 
+@media screen and (min-width: 900px) {
+.heroText {
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.7em;
+}
+
+}
 </style>

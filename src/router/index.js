@@ -6,6 +6,8 @@ import Signup from '../views/Signup.vue';
 import TweeterMain from '../views/TweeterMain.vue';
 import Profile from '../views/Profile.vue';
 import Users from '../views/Users.vue';
+import ProfileEdit from '../views/ProfileEdit.vue';
+import Comments from '../views/Comments.vue';
 
 Vue.use(VueRouter);
 
@@ -34,6 +36,16 @@ const routes = [
     path: '/users',
     name: 'Users',
     component: Users
+  },
+  {
+    path: '/profileedit',
+    name: 'ProfileEdit',
+    component: ProfileEdit
+  },
+  {
+    path: '/comments',
+    name: 'Comments',
+    component: Comments
   },
 ]
 

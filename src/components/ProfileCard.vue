@@ -1,15 +1,18 @@
 <template>
-  <div class="twitterProfile" >
-    <div class="threeColGrid">
-      <img src="../assets/doggo.jpg" alt="">
-      <div>
-        <h2>{{ user.username }}</h2>
-        <p>{{ user.bio }}</p>
-        <p>{{ errorMessage }}</p>
+  <div  > 
+    <div class="banner" ></div> 
+    <div class="twitterProfile" >
+      <div class="threeColGrid">
+        <img src="../assets/doggo.jpg" alt="">
+        <div>
+        <router-link :to="{name: 'Profile', params: { id: user.userId }}"><h2>{{ user.username }}</h2></router-link>
+          <p>{{ user.bio }}</p>
+          <p>{{ errorMessage }}</p>
+        </div>
+        <button @click="follow" >Follow</button>
       </div>
-      <button @click="follow" >Follow</button>
     </div>
-  </div>
+  </div>  
 </template>
 
 <script>
@@ -78,11 +81,19 @@ export default {
 </script>
 
 <style scoped>
+/* .banner {
+  background-image: url("../assets/cow111.jpg");
+  background-size: cover;
+  background-repeat: none;
+  height: 20vh;
+} */
+
 .twitterProfile {
   display: grid;
   justify-items: left;
-  margin-left: 20px;
   row-gap: 7px;
+  place-items: center;
+ 
 }
 .threeColGrid {
   display: grid;
@@ -93,5 +104,6 @@ export default {
 }
 img {
     width: 97px;
+    border-radius: 50%;
 }
 </style>
