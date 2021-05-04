@@ -3,7 +3,7 @@
     <div class="banner" ></div> 
     <div class="twitterProfile" >
       <div class="threeColGrid">
-        <img src="../assets/doggo.jpg" alt="">
+        <img :src="user.imageUrl" alt="">
         <div>
         <router-link :to="{name: 'Profile', params: { id: user.userId }}"><h2>{{ user.username }}</h2></router-link>
           <p>{{ user.bio }}</p>

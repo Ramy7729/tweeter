@@ -8,8 +8,8 @@
         <input type="text" id="emailInput" placeholder="Email" :value="user.email"/>
         <input type="date" id="birthDateInput" placeholder="Date of Birth" :value="user.birthdate"/>
         <textarea id="bioInput" placeholder="Bio"  :value="user.bio"/>
-        <input type="text" id="userImage" placeholder="Enter a url for your image"/>
-        <input type="text" id="bannerImage" placeholder="Enter a url for your banner"/>
+        <input type="text" id="userImage" placeholder="Enter a url for your image" :value="user.imageUrl"/>
+        <input type="text" id="userBanner" placeholder="Enter a url for your banner" :value="user.bannerUrl"/>
         <h1>{{ errorMessage }}</h1>
         <button @click="edit">Save</button>
       </form>
@@ -51,8 +51,10 @@ export default {
           username: document.getElementById("usernameInput").value,
           bio: document.getElementById("bioInput").value,
           birthdate: document.getElementById("birthDateInput").value,
+          imageUrl: document.getElementById("userImage").value,
+          bannerUrl: document.getElementById("userBanner").value,
           loginToken: this.$store.state.userInfo.loginToken
-          // imageUrl: document.getElementById("userImage").value,
+          
         },
       }).then((res) => {
         console.log(res.data);

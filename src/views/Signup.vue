@@ -10,7 +10,8 @@
         <input type="password" id="passwordInput2" placeholder="Retype Password"/>
         <input type="date" id="birthDateInput" placeholder="Date of Birth"/>
         <textarea id="bioInput" placeholder="Bio"/>
-        <input type="text" id="userImage" placeholder="Upload your profile image"/>
+        <input type="text" id="userImage" placeholder="Enter a url for your image"/>
+        <input type="text" id="userBanner" placeholder="Enter a url for your banner"/>
         <h1>{{ errorMessage }}</h1>
         <button @click="signup">Sign up</button>
       </form>
@@ -68,6 +69,7 @@ export default {
           bio: document.getElementById("bioInput").value,
           birthdate: document.getElementById("birthDateInput").value,
           imageUrl: document.getElementById("userImage").value,
+          bannerUrl: document.getElementById("userBanner").value,
         },
       }).then((res) => {
         console.log(res);

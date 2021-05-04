@@ -2,7 +2,7 @@
   <div class="postsContainer">
     <article v-for="post of posts" :key="post.tweetId">
       <div class="twoCol">
-        <img src="../assets/doggo.jpg" alt="">
+        <img :src="post.userImageUrl" alt="">
         <div>
           <p class="boldName" >{{ post.username }}</p>
           <p>{{ post.content }}</p>
