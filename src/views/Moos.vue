@@ -19,7 +19,6 @@
 
       <div class="tweetButtons" >
         <button @click="reply" >Reply</button>
-        <p>Retweet</p>
         <p>Like</p>
       </div>
 

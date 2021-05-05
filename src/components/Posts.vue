@@ -17,7 +17,6 @@
         </div>
         <div class="tweetButtons" >
           <p>Reply</p>
-          <p>Retweet</p>
           <p>Like</p>
         </div>
       </router-link>

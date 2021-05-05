@@ -10,7 +10,9 @@
           <p>{{ user.bio }}</p>
           <p>{{ errorMessage }}</p>
         </div>
-        <button @click="follow" >Follow</button>
+        <div v-if="loggedInUser.userId == user.userId"></div>
+        <button v-else-if="!user.isFollowed" @click="follow">Follow</button>
+        <button v-else @click="unfollow">Unfollow</button>
       </div>
     </div>
   </div>  
@@ -35,6 +37,11 @@ export default {
       errorMessage: ''
     }
   },
+  computed: {
+    loggedInUser() {
+      return this.$store.state.userInfo; 
+    }
+  },
   mounted () {
     if (this.user) {
       return;
@@ -51,7 +58,30 @@ export default {
         userId: this.userId,
       },
     }).then((res) => {
-      this.user = res.data[0];
+      let user = res.data[0];
+      axios.request({
+        url: "https://tweeterest.ml/api/follows",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        params: {
+          userId: this.$store.state.userInfo.userId,
+        },
+      }).then((res) => {
+        user.isFollowed = false;
+        console.log(res.data);
+        for (const followedUser of res.data) {
+          if (followedUser.userId == user.userId) {
+            user.isFollowed = true;
+          }
+        }
+        this.user = user;
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
     }).catch((err) => {
       console.log(err);
       this.errorMessage = err;
@@ -72,7 +102,26 @@ export default {
         },
       }).then((res) => {
         console.log(res);
-
+        this.user.isFollowed = true;
+      }).catch((err) => {
+        this.errorMessage = err;
+      });
+    },
+    unfollow() {
+      axios.request({
+        url: "https://tweeterest.ml/api/follows",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          loginToken: this.$store.state.userInfo.loginToken,
+          followId: this.user.userId,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.user.isFollowed = false;
       }).catch((err) => {
         this.errorMessage = err;
       });

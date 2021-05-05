@@ -39,16 +39,37 @@ export default {
         "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
       },
     }).then((res) => {
-      for (const user of res.data) {
-        this.users.push(user);
-      }
+      let allUsers = res.data;
+      axios.request({
+        url: "https://tweeterest.ml/api/follows",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        params: {
+          userId: this.$store.state.userInfo.userId,
+        }
+      }).then((res) => {
+        let followedUsers = res.data;
+        for (const user of allUsers) {
+          user.isFollowed = false;
+          for (const followedUser of followedUsers) {
+            if (user.userId == followedUser.userId) {
+              user.isFollowed = true;
+            }
+          }
+          this.users.push(user);
+        }
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
     }).catch((err) => {
       console.log(err);
       this.errorMessage = err;
     });
   },
-
-
 };
 </script>
 
