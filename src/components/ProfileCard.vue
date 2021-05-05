@@ -3,7 +3,8 @@
     <div class="banner" ></div> 
     <div class="twitterProfile" >
       <div class="threeColGrid">
-        <img :src="user.imageUrl" alt="">
+        <img v-if="user.imageUrl" :src="user.imageUrl" alt="">
+        <img v-else src="../assets/cow.jpg" alt="">
         <div>
         <router-link :to="{name: 'Profile', params: { id: user.userId }}"><h2>{{ user.username }}</h2></router-link>
           <p>{{ user.bio }}</p>

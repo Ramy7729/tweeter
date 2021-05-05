@@ -7,7 +7,7 @@ import TweeterMain from '../views/TweeterMain.vue';
 import Profile from '../views/Profile.vue';
 import Users from '../views/Users.vue';
 import ProfileEdit from '../views/ProfileEdit.vue';
-import Comments from '../views/Comments.vue';
+import Moos from '../views/Moos.vue';
 
 Vue.use(VueRouter);
 
@@ -43,9 +43,9 @@ const routes = [
     component: ProfileEdit
   },
   {
-    path: '/comments',
-    name: 'Comments',
-    component: Comments
+    path: '/moos/:userId/:mooId',
+    name: 'Moos',
+    component: Moos
   },
 ]
 

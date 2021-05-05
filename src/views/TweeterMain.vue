@@ -16,7 +16,7 @@
           <div class="tweetButton">
             <button @click="submitPost">MOO</button>
           </div>
-          <router-link to="/comments"><posts class="noDeco"   :userIds="followingUserIds" /></router-link> 
+          <posts class="noDeco"   :userIds="followingUserIds" />
         </section>
       </div>  
     </main>

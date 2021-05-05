@@ -1,23 +1,26 @@
 <template>
   <div class="postsContainer">
     <article v-for="post of posts" :key="post.tweetId">
-      <div class="twoCol">
-        <img :src="post.userImageUrl" alt="">
-        <div>
-          <p class="boldName" >{{ post.username }}</p>
-          <p>{{ post.content }}</p>
-        </div>   
-        <!-- <select name="postOptions" id="postOptions">
-          <option value=""></option>
-          <option value="delete">Delete</option>
-          <option value="edit">Edit</option>
-        </select> -->
-      </div>
-      <div class="tweetButtons" >
-        <p>Reply</p>
-        <p>Retweet</p>
-        <p>Like</p>
-      </div>
+      <router-link :to="{name: 'Moos', params:{userId: post.userId, mooId: post.tweetId} }">
+        <div class="twoCol">
+          <img v-if="post.userImageUrl" :src="post.userImageUrl" alt="">
+          <img  v-else src="../assets/cow.jpg" alt="">
+          <div>
+            <p class="boldName" >{{ post.username }}</p>
+            <p>{{ post.content }}</p>
+          </div>   
+          <!-- <select name="postOptions" id="postOptions">
+            <option value=""></option>
+            <option value="delete">Delete</option>
+            <option value="edit">Edit</option>
+          </select> -->
+        </div>
+        <div class="tweetButtons" >
+          <p>Reply</p>
+          <p>Retweet</p>
+          <p>Like</p>
+        </div>
+      </router-link>
     </article>
   </div>
 </template>
