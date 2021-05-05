@@ -13,6 +13,10 @@ export default new Vuex.Store({
     loginUser: function (state, newUserInfo) {
       state.userInfo = newUserInfo;
       cookies.set("userInfo", newUserInfo);
+    },
+    logoutUser: function (state) {
+      state.userInfo = null;
+      cookies.remove("userInfo");
     }
   },
   actions: {
