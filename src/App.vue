@@ -1,15 +1,20 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-    </div> -->
     <router-view/>
+    <side-panel/>
   </div>
 </template>
 
 <script>
 import cookies from "vue-cookies";
 
+import SidePanel from './components/SidePanel.vue';
+
+
 export default {
+  components: {
+    SidePanel,
+  },
   created () {
     let userInfo = cookies.get('userInfo');
     if (userInfo) {

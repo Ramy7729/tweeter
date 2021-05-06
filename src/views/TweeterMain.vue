@@ -2,11 +2,6 @@
   <div>
     <page-header/>
     <main>
-      <section class="sidePanel" >
-        <router-link :to="{name: 'TweeterMain'}">Home</router-link>
-        <router-link :to="{name: 'Profile'}">Profile</router-link>
-        <router-link :to="{name: 'Users'}">Users</router-link>
-      </section>
       <div class="center">
         <section class="mainGrid">
           <profile-card :userId="userId"/>
