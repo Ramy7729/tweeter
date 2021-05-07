@@ -1,5 +1,5 @@
 <template>
-  <div class="postsContainer">
+  <div class="postsContainer" :key="rerender">
     <article v-for="post of posts" :key="post.tweetId">
       <router-link :to="{name: 'Moos', params:{userId: post.userId, mooId: post.tweetId} }">
         <div class="twoCol">
@@ -10,13 +10,15 @@
             <p>{{ post.content }}</p>
           </div>   
         </div>
-
+        
       </router-link>
       <div class="editButton">
         <i class="far fa-comment-dots"></i>
         <span class="likes">
           <span v-if="!post.isLiked"><i @click="like(post)" class="far fa-heart"></i>: {{ post.likes }}</span>
+          <span v-else><span class="liked"><i @click="unlike(post)" class="far fa-heart"></i></span>: {{ post.likes }}</span>
         </span>
+        <i v-if="currentUser.userId == post.userId" class="fas fa-pencil-alt"></i>
       </div>
     </article>
   </div>
@@ -36,6 +38,12 @@ export default {
     return {
       posts: [],
       errorMessage: "",
+      rerender: 0,
+    }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.userInfo; 
     }
   },
   mounted () {
@@ -79,6 +87,7 @@ export default {
                   post.isLiked = true;
                 }
               }
+              this.rerender += 1;
             }).catch((err) => {
               console.log(err);
               this.errorMessage = err;
@@ -106,7 +115,31 @@ export default {
       }).then((res) => {
         post.likes += 1;
         post.isLiked = true;
+        this.rerender += 1;
         console.log(res);
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
+    },
+    unlike(post) {
+      axios.request({
+        url: "https://tweeterest.ml/api/tweet-likes",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          tweetId: post.tweetId,
+          loginToken: this.$store.state.userInfo.loginToken
+        },
+      }).then((res) => {
+        post.likes -= 1;
+        post.isLiked = false;
+        this.rerender += 1;
+        console.log(res);
+        
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;
@@ -141,7 +174,7 @@ export default {
   grid-template-columns: 1fr 1fr 1fr;
   text-align: center;
   margin-top: 7px;
-}
+ }
 .twoCol {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -151,6 +184,9 @@ export default {
   font-weight: bold;
   margin-top: 7px;
   margin-bottom: 7px;
+}
+.liked {
+  color: red;
 }
 select {
   max-width: 50%;
