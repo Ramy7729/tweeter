@@ -19,6 +19,7 @@
           <span v-else><span class="liked"><i @click="unlike(post)" class="far fa-heart"></i></span>: {{ post.likes }}</span>
         </span>
         <i v-if="currentUser.userId == post.userId" class="fas fa-pencil-alt"></i>
+        <i @click="deleteMoo(post)" v-if="currentUser.userId == post.userId" class="far fa-trash-alt"></i>
       </div>
     </article>
   </div>
@@ -145,6 +146,35 @@ export default {
         this.errorMessage = err;
       });
     },
+    deleteMoo(post) {
+      let verify = confirm("Are you sure you want to delete you MOO?");
+      if (verify) {
+        axios.request({
+          url: "https://tweeterest.ml/api/tweets",
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+          },
+          data: {
+            tweetId: post.tweetId,
+            loginToken: this.$store.state.userInfo.loginToken
+          },
+        }).then((res) => {
+          this.posts = this.posts.filter(function(item) {
+            if (item.tweetId == post.tweetId) {
+              return false;
+            }
+            return true;
+          });
+          this.rerender += 1;
+          console.log(res);
+        }).catch((err) => {
+          console.log(err);
+          this.errorMessage = err;
+        });
+      }
+    }
   },
   watch: {
     userIds(newUserIds) {
@@ -171,7 +201,7 @@ export default {
 }
 .editButton {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   text-align: center;
   margin-top: 7px;
  }
