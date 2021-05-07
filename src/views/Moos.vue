@@ -13,12 +13,6 @@
           </div>   
         </div>
           <textarea name="comment" id="comment" cols="30" rows="4"></textarea>
-          <!-- <select name="postOptions" id="postOptions">
-            <option value=""></option>
-            <option value="delete">Delete</option>
-            <option value="edit">Edit</option>
-          </select> -->
-
         <div class="tweetButtons" >
           <button @click="reply">Reply</button>
           <p>Like</p>
@@ -28,6 +22,15 @@
           <div v-for="comment of comments" :key="comment.commentId" class="border" >
             <p class="boldName" >{{ comment.username }}</p>
             <p>{{ comment.content }}</p>
+            <div class="editButton">
+              <i class="far fa-comment-dots"></i>
+              <span class="likes">
+                <span v-if="!comment.isLiked"><i @click="like(comment)" class="far fa-heart"></i>: {{ comment.likes }}</span>
+                <span v-else><span class="liked"><i @click="unlike(comment)" class="far fa-heart"></i></span>: {{ comment.likes }}</span>
+              </span>
+              <i v-if="currentUser.userId == comment.userId" class="fas fa-pencil-alt"></i>
+              <i @click="deleteComment(comment)" v-if="currentUser.userId == comment.userId" class="far fa-trash-alt"></i>
+            </div>
           </div>
         </div>
       </main>
@@ -54,6 +57,11 @@ export default {
       comments: [],
     };
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.userInfo; 
+    }
+  },
   methods: {
     reply() {
       axios.request({
@@ -75,6 +83,34 @@ export default {
         console.log(err);
         this.errorMessage = err;
       });
+    },
+    deleteComment (comment) {
+      let verify = confirm("Are you sure you want to delete your comment?");
+      if (verify) {
+        axios.request({
+          url: "https://tweeterest.ml/api/comments",
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+          },
+          data: {
+            loginToken: this.$store.state.userInfo.loginToken,
+            commentId: comment.commentId, 
+          },
+        }).then((res) => {
+          console.log(res.data);
+          this.comments = this.comments.filter(function(item) {
+            if (item.commentId == comment.commentId) {
+              return false;
+            }
+            return true;
+          });
+        }).catch((err) => {
+          console.log(err);
+          this.errorMessage = err;
+        });
+      }
     }
   },
   
@@ -154,6 +190,12 @@ textarea {
   margin-top: 7px;
   margin-bottom: 7px;
 }
+.editButton {
+  display: grid;
+  grid-auto-flow: column;
+  text-align: center;
+  margin-top: 7px;
+ }
 
 @media screen and (min-width: 600px) {
   main {

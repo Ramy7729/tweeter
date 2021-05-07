@@ -91,6 +91,7 @@ export default {
       }).then((res) => {
         console.log(res);
         document.getElementById("postContent").value = "";
+      
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;

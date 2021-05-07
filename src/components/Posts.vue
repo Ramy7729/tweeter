@@ -147,7 +147,7 @@ export default {
       });
     },
     deleteMoo(post) {
-      let verify = confirm("Are you sure you want to delete you MOO?");
+      let verify = confirm("Are you sure you want to delete your MOO?");
       if (verify) {
         axios.request({
           url: "https://tweeterest.ml/api/tweets",
@@ -201,7 +201,7 @@ export default {
 }
 .editButton {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-flow: column;
   text-align: center;
   margin-top: 7px;
  }

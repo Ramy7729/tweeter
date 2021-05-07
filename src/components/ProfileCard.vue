@@ -6,13 +6,13 @@
         <img v-if="user.imageUrl" :src="user.imageUrl" alt="">
         <img v-else src="../assets/cow.jpg" alt="">
         <div>
-        <router-link :to="{name: 'Profile', params: { id: user.userId }}"><h2>{{ user.username }}</h2></router-link>
-          <p>{{ user.bio }}</p>
-          <p>{{ errorMessage }}</p>
+          <router-link :to="{name: 'Profile', params: { id: user.userId }}"><h2>{{ user.username }}</h2></router-link>
+            <p>{{ user.bio }}</p>
+            <p>{{ errorMessage }}</p>
         </div>
         <div v-if="loggedInUser.userId == user.userId"></div>
-        <button v-else-if="!user.isFollowed" @click="follow">Follow</button>
-        <button v-else @click="unfollow">Unfollow</button>
+        <button v-else-if="!user.isFollowed" @click="follow" class="followColor" >Follow</button>
+        <button v-else @click="unfollow"  class="unfollowColor">Unfollow</button>
       </div>
     </div>
   </div>  
@@ -147,13 +147,30 @@ export default {
 }
 .threeColGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-columns: 1fr 2fr 1fr; 
   /* place-items: center; */
-  column-gap: 30px;
+  /* column-gap: 30px; */
   padding: 17px;
+  /* border: 1px solid grey; */
+  column-gap: 10px;
 }
 img {
     width: 97px;
     border-radius: 50%;
+}
+h2 {
+  font-size: 1.3em;
+  color: #227c9d;
+}
+.followColor {
+  background-color: #fe6d73;
+  color: white;
+}
+.unfollowColor {
+   background-color: #fe6d73;
+  color: white;
+}
+a {
+  text-decoration: none;
 }
 </style>
