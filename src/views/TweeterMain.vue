@@ -1,6 +1,7 @@
 <template>
   <div>
-    <page-header/>
+    <mobile-ham/>
+    <side-panel/>
     <main>
       <div class="center">
         <section class="mainGrid">
@@ -11,7 +12,7 @@
           <div class="tweetButton">
             <button @click="submitPost">MOO</button>
           </div>
-          <posts class="noDeco"   :userIds="followingUserIds" />
+          <posts class="noDeco" :userIds="followingUserIds"/>
         </section>
       </div>  
     </main>
@@ -23,14 +24,17 @@ import axios from "axios";
 
 import ProfileCard from '../components/ProfileCard.vue';
 import Posts from "../components/Posts.vue";
-import PageHeader from '../components/PageHeader.vue';
+import MobileHam from '../components/MobileHam.vue';
+import SidePanel from '../components/SidePanel.vue';
+
 
 export default {
   name: 'tweeter-main',
   components: {
     Posts,
     ProfileCard,
-    PageHeader,
+    MobileHam,
+    SidePanel,
   },
   data() {
     return {
@@ -112,24 +116,29 @@ export default {
   place-items: center;
 }
 
+button {
+  padding: 11px 27px;
+  font-size: 1.5em;
+  color: white;
+  background-color: #fe6d73;
+}
+
 .twoColGrid {
   display: grid;
   grid-template-columns: 1fr 1fr; 
-  /* place-items: center; */
   column-gap: 30px;
 }
 
 textarea {
   border: 1px solid #888;
-  /* padding: 5px; */
   width: 100vw;
   margin-top: 11px;
   font-family: 'Times New Roman', Times, serif;
 }
 
-header {
+/* header {
   background-color: #7ECFD4;
-}
+} */
 
 h2 {
   font-size: 1.3em

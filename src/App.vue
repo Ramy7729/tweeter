@@ -1,28 +1,24 @@
 <template>
   <div id="app">
     <router-view/>
-    <side-panel/>
   </div>
 </template>
 
 <script>
 import cookies from "vue-cookies";
 
-import SidePanel from './components/SidePanel.vue';
+// import SidePanel from './components/SidePanel.vue';
+// import MobileHam from './components/MobileHam.vue';
+
 
 
 export default {
-  components: {
-    SidePanel,
-  },
   created () {
     let userInfo = cookies.get('userInfo');
     if (userInfo) {
       this.$store.commit('loginUser', userInfo);
     }
-    
   },
-
 };
 </script>
 

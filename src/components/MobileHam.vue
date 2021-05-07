@@ -4,6 +4,7 @@
       <img src="../assets/cowIcon.svg" alt="" />
       <h1>MOO</h1>
     </div>
+    <div></div>
     <div class="headerNav mobileDisplay">
       <nav>
         <div class="displayBlock">
@@ -35,6 +36,12 @@ export default {
 /* img {
   height: 47px;
 } */
+header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  margin-right: 27px;
+}
 .headerNav {
   display: grid;
   grid-template-columns: auto auto;
@@ -73,7 +80,7 @@ span {
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  background: white;
+  background: black;
   border-radius: 3px;
   z-index: 1;
 }
@@ -91,6 +98,7 @@ li {
   padding: 7px 0;
   font-size: 18px;
 }
+
 .logo {
   display: flex;
   align-items: center;
@@ -109,10 +117,12 @@ h1 {
   padding: 7px;
 }
 
-
 @media screen and (min-width: 600px) {
   .mobileDisplay {
     visibility: hidden;
+  }
+  header {
+    display: flex;
   }
 }
 </style>

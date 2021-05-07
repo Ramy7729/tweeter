@@ -1,27 +1,35 @@
 <template>
   <div>
-    <page-header/>
-    <main>
-      <profile-card :userId="userId"/>
-      <router-link v-if="userId == loginId" to="/profileedit"><button>Edit Profile</button></router-link>  
-      <posts :userIds="[userId]" />
-    </main>
+    <mobile-ham/>
+    <side-panel/>
+    <div class="center" >  
+      <main>
+      
+        <div> 
+          <profile-card :userId="userId"/>
+          <router-link v-if="userId == loginId" to="/profileedit"><button>Edit Profile</button></router-link>  
+        </div> 
+          <posts :userIds="[userId]" />
+      </main>
+    </div>  
   </div>
 </template>
 
 <script>
 
 // import axios from "axios";
-import PageHeader from '../components/PageHeader.vue';
+import MobileHam from '../components/MobileHam.vue';
 import Posts from '../components/Posts.vue';
 import ProfileCard from '../components/ProfileCard.vue';
+import SidePanel from '../components/SidePanel.vue';
 
 export default {
   name: "Profile",
   components: {
-    PageHeader,
+    MobileHam,
     ProfileCard,
     Posts,
+    SidePanel,
   },
   computed: {
     userId() {
@@ -55,4 +63,17 @@ img {
 input {
   padding: 12px 7px 7px;
 }
+
+@media screen and (min-width: 600px) {
+  main {
+    max-width: 700px;
+    display: grid;
+  }
+
+  .center {
+    display: grid;
+    place-items: center;
+   
+  }
+} 
 </style>

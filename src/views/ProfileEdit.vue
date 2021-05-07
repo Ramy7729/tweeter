@@ -1,6 +1,7 @@
 <template>
   <div>
-    <page-header/>
+    <mobile-ham/>
+    <side-panel/>
     <main>
       <div class="center" >
         <form action="javascript:void(0)">
@@ -24,16 +25,19 @@
 </template>
 
 <script>
-import PageHeader from '../components/PageHeader.vue';
+import MobileHam from '../components/MobileHam.vue';
+import SidePanel from '../components/SidePanel.vue';
+
 import axios from "axios";
 
 export default {
   name: "profile-edit",
   components: {
-      PageHeader,
+      MobileHam,
+      SidePanel,
   },
   data() {
-    PageHeader
+    MobileHam
     return {
       errorMessage: "",
     };
@@ -100,7 +104,7 @@ export default {
 <style scoped>
 .center {
   position: absolute;
-  top: 50%;
+  top: 57%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -109,7 +113,7 @@ form {
   display: grid;
   grid-template-columns:  1fr;
   place-items: center;
-  row-gap: 13px;
+  row-gap: 11px;
   margin-top: 20px;  
 }
 input, textarea {
@@ -117,21 +121,26 @@ input, textarea {
   border-radius: 7px;
 }
 button {
-    padding: 15px 37px;
+    padding: 7px 27px;
     border-radius: 27px;
     background-color: cornflowerblue;
     color: white;
     font-size: 1.3em;
 }
 
-@media screen and (min-width: 900px) {
-main {
-  background-image: url("../assets/cowEdit.jpg");
-  height: 94vh;
-  background-size: contain;
-  background-repeat: no-repeat;
-
-}
+@media screen and (min-width: 600px) {
+  main {
+    background-image: url("../assets/cowEdit.jpg");
+    height: 94vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
 }
 
 </style>

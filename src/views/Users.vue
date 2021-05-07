@@ -1,11 +1,12 @@
 <template>
   <div>
-    <page-header/>
+    <mobile-ham/>
+    <side-panel/>
     <div class="center"> 
       <main> 
         <div>
-          <div>
-            <profile-card v-for="user of users" :key="user.userId" :user="user"/>
+          <div  >
+            <profile-card v-for="user of users" :key="user.userId" :user="user" class="border" />
           </div>
         </div>   
       </main>
@@ -16,8 +17,9 @@
 <script>
 import axios from "axios";
 
-import PageHeader from '../components/PageHeader.vue';
+import MobileHam from '../components/MobileHam.vue';
 import ProfileCard from '../components/ProfileCard.vue';
+import SidePanel from '../components/SidePanel.vue';
 
 export default {
   name: "Users",
@@ -27,8 +29,9 @@ export default {
     }
   },
   components: {
-    PageHeader,
-    ProfileCard
+    MobileHam,
+    ProfileCard,
+    SidePanel,
   },
   mounted () {
     axios.request({
@@ -74,18 +77,20 @@ export default {
 </script>
 
 <style scoped>
+.border {
+    border: 1px solid grey;
+  }
+
 @media screen and (min-width: 900px) {
   main {
     max-width: 700px;
     display: grid;
-    
   }
 
   .center {
     display: grid;
     place-items: center;
-   
   }
 } 
-
+  
 </style>
