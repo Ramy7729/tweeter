@@ -15,7 +15,7 @@
       <div class="editButton">
         <i class="far fa-comment-dots"></i>
         <span class="likes">
-          <span v-if="!post.isLiked"><i class="far fa-heart"></i>: {{ post.likes }}</span>
+          <span v-if="!post.isLiked"><i @click="like(post)" class="far fa-heart"></i>: {{ post.likes }}</span>
         </span>
       </div>
     </article>
@@ -90,7 +90,28 @@ export default {
           this.errorMessage = err;
         });
       }
-    }
+    },
+    like(post) {
+      axios.request({
+        url: "https://tweeterest.ml/api/tweet-likes",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          tweetId: post.tweetId,
+          loginToken: this.$store.state.userInfo.loginToken
+        },
+      }).then((res) => {
+        post.likes += 1;
+        post.isLiked = true;
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
+    },
   },
   watch: {
     userIds(newUserIds) {
@@ -117,7 +138,7 @@ export default {
 }
 .editButton {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   text-align: center;
   margin-top: 7px;
 }
