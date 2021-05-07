@@ -9,17 +9,15 @@
             <p class="boldName" >{{ post.username }}</p>
             <p>{{ post.content }}</p>
           </div>   
-          <!-- <select name="postOptions" id="postOptions">
-            <option value=""></option>
-            <option value="delete">Delete</option>
-            <option value="edit">Edit</option>
-          </select> -->
         </div>
-        <div class="tweetButtons" >
-          <p>Reply</p>
-          <p>Like</p>
-        </div>
+
       </router-link>
+      <div class="editButton">
+        <i class="far fa-comment-dots"></i>
+        <span class="likes">
+          <span v-if="!post.isLiked"><i class="far fa-heart"></i>: {{ post.likes }}</span>
+        </span>
+      </div>
     </article>
   </div>
 </template>
@@ -57,10 +55,36 @@ export default {
             userId: userId,
           },
         }).then((res) => {
-          this.posts = this.posts.concat(res.data);
-          this.posts = this.posts.sort((first, second) => {
+          let posts = res.data.concat(this.posts);
+          posts = posts.sort((first, second) => {
             return first.createdAt > second.createdAt;
           });
+
+          for (const post of posts) {
+            axios.request({
+              url: "https://tweeterest.ml/api/tweet-likes",
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+              },
+              params: {
+                tweetId: post.tweetId,
+              },
+            }).then((res) => {
+              post.likes = res.data.length;
+              post.isLiked = false;
+              for (const like of res.data) {
+                if (this.$store.state.userInfo.userId == like.userId) {
+                  post.isLiked = true;
+                }
+              }
+            }).catch((err) => {
+              console.log(err);
+              this.errorMessage = err;
+            });
+          }
+          this.posts = posts;
         }).catch((err) => {
           console.log(err);
           this.errorMessage = err;
@@ -91,10 +115,16 @@ export default {
   margin-left: 20px;
   margin-top: 17px;
 }
-
+.editButton {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  margin-top: 7px;
+}
 .twoCol {
   display: grid;
-  grid-template-columns: 1fr 2fr ;
+  grid-template-columns: 1fr 2fr;
+  margin-right: 7px;
 }
 .boldName {
   font-weight: bold;
@@ -112,6 +142,8 @@ article {
 img {
   width: 87px;
 }
-
-
+a {
+  text-decoration: none;
+  color: black;
+}
 </style>
