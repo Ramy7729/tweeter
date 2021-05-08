@@ -1,17 +1,17 @@
 <template>
-  <div  > 
-    <div class="banner" ></div> 
+  <div> 
+    <div><img id="banner" v-if="user.bannerUrl" :src="user.bannerUrl" alt=""></div> 
     <div class="twitterProfile" >
       <div class="threeColGrid">
-        <img v-if="user.imageUrl" :src="user.imageUrl" alt="">
-        <img v-else src="../assets/cow.jpg" alt="">
+        <img  class="profileImg" v-if="user.imageUrl" :src="user.imageUrl" alt="">
+        <img  class="profileImg" v-else src="../assets/cow.jpg" alt="">
         <div>
           <router-link :to="{name: 'Profile', params: { id: user.userId }}"><h2>{{ user.username }}</h2></router-link>
             <p>{{ user.bio }}</p>
             <p>{{ errorMessage }}</p>
         </div>
         <div v-if="loggedInUser.userId == user.userId"></div>
-        <button v-else-if="!user.isFollowed" @click="follow" class="followColor" >Follow</button>
+        <button v-else-if="!user.isFollowed" @click="follow" class="followColor">Follow</button>
         <button v-else @click="unfollow"  class="unfollowColor">Unfollow</button>
       </div>
     </div>
@@ -131,46 +131,74 @@ export default {
 </script>
 
 <style scoped>
-/* .banner {
-  background-image: url("../assets/cow111.jpg");
-  background-size: cover;
-  background-repeat: none;
-  height: 20vh;
-} */
+#banner {
+  width: 100%;
+  height: 30vh;
+}
 
-.twitterProfile {
+/* .twitterProfile {
   display: grid;
   justify-items: left;
   row-gap: 7px;
   place-items: center;
  
-}
+} */
 .threeColGrid {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr; 
-  /* place-items: center; */
+  place-items: center;
+  row-gap: 7px;
+  margin-top: 11px;
+  margin-bottom: 11px;
+  
+}
+.profileImg {
+    height: 97px;
+    width: 97px;
+    border-radius: 50%;
+    position: relative;
+    bottom: 55px;
+    
+}
+h2 {
+  font-size: 1.3em;
+ 
+  color: #0e6b0e;
+  /* color: #94A717; */
+  margin-bottom: 5px;
+}
+.followColor {
+  background-color: #FE6D73;
+  color: white;
+  border-radius: 20px 20px;
+}
+.unfollowColor {
+  background-color: white;
+  color: black;
+  border: 2px solid #FE6D73;
+  border-radius: 20px 20px;
+}
+a {
+  text-decoration: none;
+}
+button {
+  padding: 7px 37px;
+}
+@media screen and (min-width: 900px) {
+  .threeColGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr; 
+  place-items: center;
   /* column-gap: 30px; */
   padding: 17px;
   /* border: 1px solid grey; */
   column-gap: 10px;
-}
-img {
+  }
+  .profileImg {
+    height: 97px;
     width: 97px;
     border-radius: 50%;
-}
-h2 {
-  font-size: 1.3em;
-  color: #227c9d;
-}
-.followColor {
-  background-color: #fe6d73;
-  color: white;
-}
-.unfollowColor {
-   background-color: #fe6d73;
-  color: white;
-}
-a {
-  text-decoration: none;
+    position: relative;
+    bottom: 100px;
+  }
 }
 </style>

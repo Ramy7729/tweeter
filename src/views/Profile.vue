@@ -63,6 +63,13 @@ img {
 input {
   padding: 12px 7px 7px;
 }
+button {
+  padding: 11px 27px;
+  font-size: 1.2em;
+  color: white;
+  background-color: #FE6D73;
+  border-radius: 10px 10px;
+}
 
 @media screen and (min-width: 600px) {
   main {
@@ -73,7 +80,6 @@ input {
   .center {
     display: grid;
     place-items: center;
-   
-  }
+   }
 } 
 </style>

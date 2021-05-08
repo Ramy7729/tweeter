@@ -4,6 +4,7 @@
         <router-link :to="{name: 'TweeterMain'}">Home</router-link>
         <router-link :to="{name: 'Profile'}">Profile</router-link>
         <router-link :to="{name: 'Users'}">Users</router-link>
+        <img src="../assets/cowLottie.gif" alt="Animated cartoon cow jumping up and down">
     </section>
   </div>  
 </template>
@@ -21,7 +22,7 @@ img {
   border-radius: 50%;
 }
 .sidePanel {
-  visibility: hidden;
+  display: none;
 }
 
 @media screen and (min-width: 900px) {
@@ -61,10 +62,13 @@ img {
     text-decoration: none;
     color: black;
   }
-
   a:hover {
-    background-color: lightblue;
-    border-radius: 20px 20px ;
+    background-color: pink;
+    border-radius: 4px ;
+    border-left: 5px solid black;
+  }
+  img {
+   height: 200px;
   }
 }
 </style>

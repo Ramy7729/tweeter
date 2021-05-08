@@ -10,6 +10,7 @@
             <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a post" ></textarea>
           </div>
           <div class="tweetButton">
+            <img class="noMobile" src="../assets/cowLottie.gif" alt="">
             <button @click="submitPost">MOO</button>
           </div>
           <posts class="noDeco" :userIds="followingUserIds"/>
@@ -85,8 +86,8 @@ export default {
           "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
         },
         data: {
-          "loginToken": this.$store.state.userInfo.loginToken,
-          "content": document.getElementById("postContent").value,
+          loginToken: this.$store.state.userInfo.loginToken,
+          content: document.getElementById("postContent").value,
         },
       }).then((res) => {
         console.log(res);
@@ -110,18 +111,19 @@ export default {
 }
 
 .tweetButton {
-  display: grid;
-  grid-auto-flow: column;
+  display: flex;
   margin-left: 20px;
   margin-top: 17px;
-  place-items: center;
+  place-content: center;
+  column-gap: 7px;
 }
 
 button {
   padding: 11px 27px;
   font-size: 1.5em;
   color: white;
-  background-color: #fe6d73;
+  background-color: #FE6D73;
+  border-radius: 10px 10px;
 }
 
 .twoColGrid {
@@ -131,7 +133,7 @@ button {
 }
 
 textarea {
-  border: 1px solid #888;
+  border:#94A717 2px solid;
   width: 100vw;
   margin-top: 11px;
   font-family: 'Times New Roman', Times, serif;
@@ -150,7 +152,7 @@ img {
 }
 
 .sidePanel {
-  visibility: hidden;
+  display: none;
 }
 
 a {
@@ -198,6 +200,7 @@ a {
 
   textarea {
     max-width: 700px;
+    border:#94A717 2px solid;
   }
 
   .center {
@@ -206,6 +209,10 @@ a {
     
   }
   
+  .noMobile {
+    display: none;
+  }
+
 }
 
 </style>

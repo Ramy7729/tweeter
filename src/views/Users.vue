@@ -80,6 +80,10 @@ export default {
 .border {
     border: 1px solid grey;
   }
+.center {
+  margin-top: 30px;
+  
+}
 
 @media screen and (min-width: 900px) {
   main {
@@ -90,6 +94,7 @@ export default {
   .center {
     display: grid;
     place-items: center;
+    margin-top: 0;
   }
 } 
   

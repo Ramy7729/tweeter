@@ -1,8 +1,9 @@
 <template>
   <header>
     <div  class="logo">
-      <img src="../assets/cowIcon.svg" alt="" />
+      <img src="../assets/cowIcon.svg" alt="face of a cartoon cow" />
       <h1>MOO</h1>
+      <router-link  class="signOut" to="/"><h2 @click="signOut" >Sign Out</h2></router-link>
     </div>
     <div></div>
     <div class="headerNav mobileDisplay">
@@ -18,6 +19,7 @@
             <router-link to="/tweetermain"><li>Home</li></router-link>
             <router-link to="/profile"><li>Profile</li></router-link>
             <router-link to="/users"><li>Users</li></router-link>
+            <router-link to="/"><li @click="signOut" >Sign Out</li></router-link>
           </ul>
         </div>
       </nav>
@@ -29,6 +31,11 @@
 <script>
 export default {
   name: "mobile-ham",
+  methods: {
+    signOut() {
+      this.$store.commit('logoutUser');
+    }
+  },
 };
 </script>
 
@@ -110,11 +117,17 @@ img {
   margin: 5px 5px;
   margin-right: 0;
   border: 2px solid;
+  border-radius: 10px 10px;
 }
 h1 {
   background-color: black;
   color: white;
   padding: 7px;
+  border-radius: 10px 10px;
+}
+.signOut:hover {
+  cursor: pointer;
+  color: #FE6D73;
 }
 
 @media screen and (min-width: 600px) {
@@ -123,6 +136,18 @@ h1 {
   }
   header {
     display: flex;
+  }
+  .signOut {
+    position: absolute;
+    right: 0;
+    font-size: 1.3em;
+    /* background-color: #0e6b0e; */
+    color: black;
+    border: 2px solid black;
+    width: 10vw;
+    padding: 9px 15px;
+    margin-right: 5px;
+    border-radius: 4px;
   }
 }
 </style>

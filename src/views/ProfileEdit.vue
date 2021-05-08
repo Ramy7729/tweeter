@@ -5,7 +5,11 @@
     <main>
       <div class="center" >
         <form action="javascript:void(0)">
-          <h2>Edit Profile</h2>
+          <div class="flex">  
+            <h2>Edit Profile</h2>
+            <img src="../assets/cowLottie.gif" alt="Animated cartoon cow jumping up and down.">
+           </div>  
+          <h2 class="noMobile" >Edit Profile</h2>
           <input type="text" id="usernameInput" placeholder="Username" :value="user.username"/>
           <input type="text" id="emailInput" placeholder="Email" :value="user.email"/>
           <input type="date" id="birthDateInput" placeholder="Date of Birth" :value="user.birthdate"/>
@@ -123,24 +127,44 @@ input, textarea {
 button {
     padding: 7px 27px;
     border-radius: 27px;
-    background-color: cornflowerblue;
+    background-color: #FE6D73;
     color: white;
     font-size: 1.3em;
 }
+img {
+  height: 80px;
+}
+.flex {
+  display: flex;
+  place-items: center;
+  margin-top: 25px;
+}
+.noMobile {
+  display: none;
+}
+
 
 @media screen and (min-width: 600px) {
-  main {
+  /* main {
     background-image: url("../assets/cowEdit.jpg");
     height: 94vh;
     background-size: contain;
     background-repeat: no-repeat;
-  }
+  } */
   .center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   }
+  .flex {
+  display: none;
+  }
+  .noMobile {
+    display: block;
+    font-size: 1.7em;
+  }
+
 }
 
 </style>

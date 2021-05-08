@@ -9,7 +9,7 @@
       <input type="password" id="passwordInput" placeholder="password" />
       <button @click="login">Login</button>
       <p>{{ errorMessage }}</p>
-			<router-link to="/signup"><button>Sign Up</button></router-link>
+			<router-link to="/signup"><button class="signupButton" >Sign Up</button></router-link>
     </form>
     
   </main>
@@ -88,9 +88,14 @@ input {
   padding: 7px;
 }
 button {
-  padding: 7px 77px;
+  font-size: 1.3em;
+  padding: 5px 67px;
   border-radius: 20px 20px;
-
+  background-color: #FE6D73;
+  color: white;
+}
+.signupButton {
+  background-color: #17C3B2;
 }
 main {
   background-image: url("../assets/cow.jpg");
@@ -99,12 +104,11 @@ main {
 }
 
 @media screen and (min-width: 900px) {
-.heroText {
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.7em;
-}
-
+  .heroText {
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.7em;
+  }
 }
 </style>

@@ -22,13 +22,18 @@
           <div v-for="comment of comments" :key="comment.commentId" class="border" >
             <p class="boldName" >{{ comment.username }}</p>
             <p>{{ comment.content }}</p>
+            <div class="hidden editComment" :commentId="comment.commentId">
+              <textarea name="editComment" :commentContentId="comment.commentId" cols="30" rows="04" v-model="comment.content"></textarea>
+              <button @click="editComment(comment)">Submit</button>
+            </div>
             <div class="editButton">
               <i class="far fa-comment-dots"></i>
               <span class="likes">
                 <span v-if="!comment.isLiked"><i @click="like(comment)" class="far fa-heart"></i>: {{ comment.likes }}</span>
                 <span v-else><span class="liked"><i @click="unlike(comment)" class="far fa-heart"></i></span>: {{ comment.likes }}</span>
               </span>
-              <i v-if="currentUser.userId == comment.userId" class="fas fa-pencil-alt"></i>
+              <i v-if="currentUser.userId == comment.userId" @click="showEditComment(comment)" class="fas fa-pencil-alt"></i>
+              
               <i @click="deleteComment(comment)" v-if="currentUser.userId == comment.userId" class="far fa-trash-alt"></i>
             </div>
           </div>
@@ -69,7 +74,7 @@ export default {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+          "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
         },
         data: {
           loginToken: this.$store.state.userInfo.loginToken,
@@ -92,7 +97,7 @@ export default {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+            "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
           },
           data: {
             loginToken: this.$store.state.userInfo.loginToken,
@@ -111,6 +116,34 @@ export default {
           this.errorMessage = err;
         });
       }
+    },
+    showEditComment(comment) {
+      let editComment = document.querySelectorAll(`[commentId="${comment.commentId}"]`);
+      editComment[0].classList.toggle("hidden");
+    },
+    editComment(comment) {
+      let editContentComment = document.querySelectorAll(`[commentContentId="${comment.commentId}"]`);
+      let content = editContentComment[0].value;
+      axios.request({
+        url: "https://tweeterest.ml/api/comments",
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          loginToken: this.$store.state.userInfo.loginToken,
+          commentId: comment.commentId, 
+          content: content,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.showEditComment(comment);
+      
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
     }
   },
   
@@ -120,7 +153,7 @@ export default {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
       },
       params: {
         userId: parseInt(this.$route.params.userId),
@@ -142,7 +175,7 @@ export default {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
       },
       params: {
         tweetId: parseInt(this.$route.params.mooId),
@@ -160,7 +193,8 @@ export default {
 
 <style scoped>
 img {
-  height: 77px;
+  width: 97px;
+  height: 97px;
   border-radius: 50%;
 }
 .commentsContainer {
@@ -168,6 +202,10 @@ img {
   text-align: left;
   grid-auto-columns: 1fr;
   margin-left: 20px;
+}
+
+.hidden {
+  display: none;
 }
 
 .twoCol {

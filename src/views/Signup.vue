@@ -2,16 +2,24 @@
   <div>
     <main>
       <form action="javascript:void(0)">
-        <h1>MOO.</h1>
-      <h2>Make your voice herd</h2>
-        <input type="text" id="usernameInput" placeholder="Username" />
+      <h1>MOO.</h1>
+      <h2>Create your account</h2>
+      <div>  
+        <div><input type="text" id="usernameInput" placeholder="Username" /></div>
         <input type="text" id="emailInput" placeholder="Email" />
-        <input type="password" id="passwordInput1" placeholder="Password"/>
-        <input type="password" id="passwordInput2" placeholder="Retype Password"/>
-        <input type="date" id="birthDateInput" placeholder="Date of Birth"/>
+      </div>  
+      <div>     
+          <div><input type="password" id="passwordInput1" placeholder="Password"/></div>
+          <input type="password" id="passwordInput2" placeholder="Retype Password"/>
+      </div>
+      <div> 
+        <div><input type="date" id="birthDateInput" placeholder="Date of Birth"/></div>
         <textarea id="bioInput" placeholder="Bio"/>
-        <input type="text" id="userImage" placeholder="Enter a url for your image"/>
+      </div>   
+      <div>
+        <div><input type="text" id="userImage" placeholder="Enter a url for your image"/></div>
         <input type="text" id="userBanner" placeholder="Enter a url for your banner"/>
+      </div>  
         <h1>{{ errorMessage }}</h1>
         <button @click="signup">Sign up</button>
       </form>
@@ -106,13 +114,14 @@ form {
 h1, h2 {
   color: white;
 }
-input {
+input, textarea {
   padding: 12px 7px 7px;
+  border-radius: 7px;
 }
 button {
-    padding: 15px 37px;
+    padding: 7px 37px;
     border-radius: 27px;
-    background-color: cornflowerblue;
+    background-color: #17C3B2;
     color: white;
     font-size: 1.3em;
 }
