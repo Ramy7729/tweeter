@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="rerender">
     <mobile-ham/>
     <side-panel/>
     <div class="center" >
@@ -26,7 +26,6 @@
               <button class="submitButton" @click="editComment(comment)">Submit</button>
             </div>
             <div class="editButton">
-              <i class="far fa-comment-dots"></i>
               <span class="likes">
                 <span v-if="!comment.isLiked"><i @click="like(comment)" class="far fa-heart"></i>: {{ comment.likes }}</span>
                 <span v-else><span class="liked"><i @click="unlike(comment)" class="far fa-heart"></i></span>: {{ comment.likes }}</span>
@@ -59,6 +58,7 @@ export default {
       post: {},
       errorMessage: "",
       comments: [],
+      rerender: 0,
     };
   },
   computed: {
@@ -143,9 +143,31 @@ export default {
         console.log(err);
         this.errorMessage = err;
       });
-    }
+    },
+    like(comment) {
+      axios.request({
+        url: "https://tweeterest.ml/api/comment-likes",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          loginToken: this.$store.state.userInfo.loginToken,
+          commentId: comment.commentId,
+        },
+      }).then((res) => {
+        console.log(res);
+        comment.likes += 1;
+        comment.isLiked = true;
+        this.rerender += 1;
+
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
+    },
   },
-  
   mounted () {
     axios.request({
       url: "https://tweeterest.ml/api/tweets",
@@ -180,8 +202,34 @@ export default {
         tweetId: parseInt(this.$route.params.mooId),
       },
     }).then((res) => {
+      let comments = res.data;
       console.log(res.data);
-      this.comments = res.data;
+      for (const comment of comments) {
+        axios.request({
+          url: "https://tweeterest.ml/api/comment-likes",
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+          },
+          params: {
+            commentId: comment.commentId,
+          },
+        }).then((res) => {
+          comment.likes = res.data.length;
+          comment.isLiked = false;
+          for (const like of res.data) {
+            if (this.$store.state.userInfo.userId == like.userId) {
+              comment.isLiked = true;
+            }
+          }
+          this.rerender += 1;
+        }).catch((err) => {
+          console.log(err);
+          this.errorMessage = err;
+        });
+        this.comments = comments;
+      }
     }).catch((err) => {
       console.log(err);
       this.errorMessage = err;
