@@ -7,7 +7,7 @@
         <section class="mainGrid">
           <profile-card :userId="userId"/>
           <div>
-            <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a post" ></textarea>
+            <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a MOO" ></textarea>
           </div>
           <div class="tweetButton">
             <img class="noMobile" src="../assets/cowLottie.gif" alt="">

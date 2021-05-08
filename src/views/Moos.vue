@@ -23,7 +23,7 @@
             <p>{{ comment.content }}</p>
             <div class="hidden editComment" :commentId="comment.commentId">
               <textarea name="editComment" :commentContentId="comment.commentId" cols="30" rows="04" v-model="comment.content"></textarea>
-              <button @click="editComment(comment)">Submit</button>
+              <button class="submitButton" @click="editComment(comment)">Submit</button>
             </div>
             <div class="editButton">
               <i class="far fa-comment-dots"></i>
@@ -243,6 +243,22 @@ textarea {
   border: 3px solid black;
   margin-bottom: 7px;
  }
+ .editComment{
+  width: 100%;
+  text-align: center;
+}
+textarea {
+  width: 100%;
+}
+.submitButton {
+  padding: 3px 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+  background-color: #f6afaf;
+  border-radius: 10px 10px;
+  border: 3px solid black;
+}
 
 @media screen and (min-width: 600px) {
   main {

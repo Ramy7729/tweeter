@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="user" ><img id="banner" v-if="user.bannerUrl" :src="user.bannerUrl" alt=""></div> 
+    <div v-if="user" >
+      <img id="banner" v-if="user.bannerUrl" :src="user.bannerUrl" alt="">
+      <img id="banner" v-else src="../assets/defaultBanner.jpg" alt="">
+    </div>
     <div v-if="user" class="twitterProfile" >
       <div class="threeColGrid">
         <img  class="profileImg" v-if="user.imageUrl" :src="user.imageUrl" alt="">

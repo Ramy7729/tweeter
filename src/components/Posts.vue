@@ -276,4 +276,20 @@ a {
 .hidden {
   display: none;
 }
+button {
+  padding: 3px 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+  background-color: #f6afaf;
+  border-radius: 10px 10px;
+  border: 3px solid black;
+}
+.editComment{
+  width: 100%;
+  text-align: center;
+}
+textarea {
+  width: 100%;
+}
 </style>
