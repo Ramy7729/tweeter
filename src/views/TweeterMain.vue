@@ -13,9 +13,9 @@
             <img class="noMobile" src="../assets/cowLottie.gif" alt="">
             <button @click="submitPost">MOO</button>
           </div>
-          <posts class="noDeco" :userIds="followingUserIds"/>
+          <posts class="noDeco" :userIds="followingUserIds" :key="rerender"/>
         </section>
-      </div>  
+      </div>
     </main>
   </div>
 </template>
@@ -27,7 +27,6 @@ import ProfileCard from '../components/ProfileCard.vue';
 import Posts from "../components/Posts.vue";
 import MobileHam from '../components/MobileHam.vue';
 import SidePanel from '../components/SidePanel.vue';
-
 
 export default {
   name: 'tweeter-main',
@@ -41,6 +40,7 @@ export default {
     return {
       errorMessage: "",
       followingUserIds: [],
+      rerender: 0,
     };
   },
   computed: {
@@ -92,7 +92,7 @@ export default {
       }).then((res) => {
         console.log(res);
         document.getElementById("postContent").value = "";
-      
+        this.rerender += 1;
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;
@@ -159,6 +159,7 @@ a {
   text-decoration: none;
   color: black;
 }
+
 
 @media screen and (min-width: 900px) {
   

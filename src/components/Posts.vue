@@ -65,9 +65,6 @@ export default {
           },
         }).then((res) => {
           let posts = res.data.concat(this.posts);
-          posts = posts.sort((first, second) => {
-            return first.createdAt > second.createdAt;
-          });
 
           for (const post of posts) {
             axios.request({
@@ -94,6 +91,14 @@ export default {
               this.errorMessage = err;
             });
           }
+          posts = posts.sort((first, second) => {
+            if (first.createdAt < second.createdAt) {
+              return 1;
+            } else if (first.createdAt > second.createdAt) {
+              return -1;
+            }
+            return 0;
+          });
           this.posts = posts;
         }).catch((err) => {
           console.log(err);
@@ -207,13 +212,14 @@ export default {
  }
 .twoCol {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: auto 1fr;
   margin-right: 7px;
+  column-gap: 40px;
 }
 .boldName {
   font-weight: bold;
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .liked {
   color: red;

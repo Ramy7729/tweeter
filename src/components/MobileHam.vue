@@ -130,7 +130,7 @@ h1 {
   color: #FE6D73;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 900px) {
   .mobileDisplay {
     visibility: hidden;
   }
