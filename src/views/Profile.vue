@@ -66,9 +66,11 @@ input {
 button {
   padding: 11px 27px;
   font-size: 1.2em;
+  font-weight: bold;
   color: white;
-  background-color: #FE6D73;
+  background-color: #f6afaf;
   border-radius: 10px 10px;
+  border: 3px solid black;
 }
 
 @media screen and (min-width: 600px) {

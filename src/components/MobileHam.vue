@@ -17,7 +17,7 @@
 
           <ul>
             <router-link to="/tweetermain"><li>Home</li></router-link>
-            <router-link to="/profile"><li>Profile</li></router-link>
+            <router-link :to="{name: 'Profile', params: { id: user.userId }}"><li>Profile</li></router-link>
             <router-link to="/users"><li>Users</li></router-link>
             <router-link to="/"><li @click="signOut" >Sign Out</li></router-link>
           </ul>
@@ -34,6 +34,11 @@ export default {
   methods: {
     signOut() {
       this.$store.commit('logoutUser');
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.userInfo; 
     }
   },
 };

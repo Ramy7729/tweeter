@@ -14,8 +14,7 @@
         </div>
           <textarea name="comment" id="comment" cols="30" rows="4"></textarea>
         <div class="tweetButtons" >
-          <button @click="reply">Reply</button>
-          <p>Like</p>
+          <button @click="reply" class="replyButton" >Reply</button>
         </div>
 
         <div class="commentsContainer">
@@ -233,6 +232,16 @@ textarea {
   grid-auto-flow: column;
   text-align: center;
   margin-top: 7px;
+ }
+ .replyButton {
+   padding: 11px 27px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+  background-color: #f6afaf;
+  border-radius: 10px 10px;
+  border: 3px solid black;
+  margin-bottom: 7px;
  }
 
 @media screen and (min-width: 600px) {

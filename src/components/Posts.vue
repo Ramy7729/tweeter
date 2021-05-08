@@ -1,24 +1,29 @@
 <template>
   <div class="postsContainer" :key="rerender">
     <article v-for="post of posts" :key="post.tweetId">
-      <router-link :to="{name: 'Moos', params:{userId: post.userId, mooId: post.tweetId} }">
-        <div class="twoCol">
-          <img v-if="post.userImageUrl" :src="post.userImageUrl" alt="">
-          <img  v-else src="../assets/cow.jpg" alt="">
-          <div>
-            <p class="boldName" >{{ post.username }}</p>
-            <p>{{ post.content }}</p>
-          </div>   
+        <div>
+          <router-link class="twoCol" :to="{name: 'Moos', params:{userId: post.userId, mooId: post.tweetId} }">
+            <img v-if="post.userImageUrl" :src="post.userImageUrl" alt="">
+            <img  v-else src="../assets/cow.jpg" alt="">
+            <div>
+              <p class="boldName" >{{ post.username }}</p>
+              <p>{{ post.content }}</p>
+            </div>
+          </router-link> 
+            
+          <div class="hidden editComment" :postId="post.tweetId">
+            <textarea name="editComment" :postContentId="post.tweetId" cols="30" rows="04" v-model="post.content"></textarea>
+            <button @click="editPost(post)">Submit</button>
+          </div>
+
         </div>
-        
-      </router-link>
       <div class="editButton">
         <i class="far fa-comment-dots"></i>
         <span class="likes">
           <span v-if="!post.isLiked"><i @click="like(post)" class="far fa-heart"></i>: {{ post.likes }}</span>
           <span v-else><span class="liked"><i @click="unlike(post)" class="far fa-heart"></i></span>: {{ post.likes }}</span>
         </span>
-        <i v-if="currentUser.userId == post.userId" class="fas fa-pencil-alt"></i>
+        <i v-if="currentUser.userId == post.userId" @click="showEditPost(post)" class="fas fa-pencil-alt"></i>
         <i @click="deleteMoo(post)" v-if="currentUser.userId == post.userId" class="far fa-trash-alt"></i>
       </div>
     </article>
@@ -179,7 +184,36 @@ export default {
           this.errorMessage = err;
         });
       }
+    },
+    showEditPost(tweet) {
+      let editPost = document.querySelectorAll(`[postId="${tweet.tweetId}"]`);
+      editPost[0].classList.toggle("hidden");
+    },
+    editPost(tweet) {
+      let editContentPost = document.querySelectorAll(`[postContentId="${tweet.tweetId}"]`);
+      let content = editContentPost[0].value;
+      axios.request({
+        url: "https://tweeterest.ml/api/tweets",
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          loginToken: this.$store.state.userInfo.loginToken,
+          tweetId: tweet.tweetId, 
+          content: content,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.showEditPost(tweet);
+      
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
     }
+  
   },
   watch: {
     userIds(newUserIds) {
@@ -238,5 +272,8 @@ img {
 a {
   text-decoration: none;
   color: black;
+}
+.hidden {
+  display: none;
 }
 </style>

@@ -21,7 +21,7 @@
         </form>
         <form action="javascript:void(0)">
           <input type="text" name="delete" id="delete" placeholder="Enter your password to delete profile">
-          <button @click="deleteProfile" >Delete Profile</button>
+          <button @click="deleteProfile">ReMOOve Profile</button>
         </form>
       </div>
     </main>
@@ -127,7 +127,7 @@ input, textarea {
 button {
     padding: 7px 27px;
     border-radius: 27px;
-    background-color: #FE6D73;
+    background-color: #F6AFAF;
     color: white;
     font-size: 1.3em;
 }

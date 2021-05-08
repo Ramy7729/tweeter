@@ -2,7 +2,7 @@
   <div>
    <section class="sidePanel" >
         <router-link :to="{name: 'TweeterMain'}">Home</router-link>
-        <router-link :to="{name: 'Profile'}">Profile</router-link>
+        <router-link :to="{name: 'Profile', params: { id: user.userId }}">Profile</router-link>
         <router-link :to="{name: 'Users'}">Users</router-link>
         <img src="../assets/cowLottie.gif" alt="Animated cartoon cow jumping up and down">
     </section>
@@ -13,6 +13,11 @@
 
 export default {
   name: "side-panel",
+  computed: {
+    user() {
+      return this.$store.state.userInfo; 
+    }
+  },
 }
 </script>
 

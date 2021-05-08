@@ -89,10 +89,11 @@ input {
 }
 button {
   font-size: 1.3em;
-  padding: 5px 67px;
+  padding: 5px 47px;
   border-radius: 20px 20px;
   background-color: #FE6D73;
   color: white;
+  width: 100%;
 }
 .signupButton {
   background-color: #17C3B2;

@@ -1,7 +1,7 @@
 <template>
-  <div> 
-    <div><img id="banner" v-if="user.bannerUrl" :src="user.bannerUrl" alt=""></div> 
-    <div class="twitterProfile" >
+  <div>
+    <div v-if="user" ><img id="banner" v-if="user.bannerUrl" :src="user.bannerUrl" alt=""></div> 
+    <div v-if="user" class="twitterProfile" >
       <div class="threeColGrid">
         <img  class="profileImg" v-if="user.imageUrl" :src="user.imageUrl" alt="">
         <img  class="profileImg" v-else src="../assets/cow.jpg" alt="">
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      errorMessage: ''
+      errorMessage: '',
     }
   },
   computed: {
@@ -167,14 +167,14 @@ h2 {
   margin-bottom: 5px;
 }
 .followColor {
-  background-color: #FE6D73;
+  background-color: #f6afaf;
   color: white;
   border-radius: 20px 20px;
 }
 .unfollowColor {
   background-color: white;
   color: black;
-  border: 2px solid #FE6D73;
+  border: 2px solid #f6afaf;
   border-radius: 20px 20px;
 }
 a {
