@@ -167,6 +167,29 @@ export default {
         this.errorMessage = err;
       });
     },
+    unlike(comment) {
+      axios.request({
+        url: "https://tweeterest.ml/api/comment-likes",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          loginToken: this.$store.state.userInfo.loginToken,
+          commentId: comment.commentId,
+        },
+      }).then((res) => {
+        console.log(res);
+        comment.likes -= 1;
+        comment.isLiked = false;
+        this.rerender += 1;
+
+      }).catch((err) => {
+        console.log(err);
+        this.errorMessage = err;
+      });
+    },
   },
   mounted () {
     axios.request({
@@ -306,6 +329,9 @@ textarea {
   background-color: #f6afaf;
   border-radius: 10px 10px;
   border: 3px solid black;
+}
+.liked {
+  color: red;
 }
 
 @media screen and (min-width: 600px) {
