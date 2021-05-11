@@ -1,3 +1,4 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div :key="rerender">
     <mobile-ham/>
@@ -14,6 +15,7 @@
         </div>
           <textarea name="comment" id="comment" cols="30" rows="4"></textarea>
         <div class="tweetButtons" >
+          <!-- This gives the user the ability to reply to a post -->
           <button @click="reply" class="replyButton" >Reply</button>
         </div>
 
@@ -23,15 +25,19 @@
             <p>{{ comment.content }}</p>
             <div class="hidden editComment" :commentId="comment.commentId">
               <textarea name="editComment" :commentContentId="comment.commentId" cols="30" rows="04" v-model="comment.content"></textarea>
+              <!-- This gives the user the ability to edit a comment -->
               <button class="submitButton" @click="editComment(comment)">Submit</button>
             </div>
             <div class="editButton">
               <span class="likes">
+                 <!-- This gives the user the ability to like a comment -->
                 <span v-if="!comment.isLiked"><i @click="like(comment)" class="far fa-heart"></i>: {{ comment.likes }}</span>
+                 <!-- This gives the user the ability to unlike a comment -->
                 <span v-else><span class="liked"><i @click="unlike(comment)" class="far fa-heart"></i></span>: {{ comment.likes }}</span>
               </span>
+               <!-- This gives the user the ability to see the comment they are editing -->
               <i v-if="currentUser.userId == comment.userId" @click="showEditComment(comment)" class="fas fa-pencil-alt"></i>
-              
+               <!-- This gives the user the ability to delete a comment -->
               <i @click="deleteComment(comment)" v-if="currentUser.userId == comment.userId" class="far fa-trash-alt"></i>
             </div>
           </div>
@@ -62,11 +68,13 @@ export default {
     };
   },
   computed: {
+    // This returns the current logged in user.
     currentUser() {
       return this.$store.state.userInfo; 
     }
   },
   methods: {
+    // Configuring the request to enable the user to make a comment.
     reply() {
       axios.request({
         url: "https://tweeterest.ml/api/comments",
@@ -81,14 +89,18 @@ export default {
           content: document.getElementById("comment").value
         },
       }).then((res) => {
+        // On success the comment input is cleared.
         document.getElementById("comment").value = '';
+        // The comment then gets added to the comments that are displayed.
         this.comments.push(res.data);
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;
       });
     },
+    // Configuring the request to enable the user to delete a comment.
     deleteComment (comment) {
+      // A confirmation appears that asks the user to verify if they want to delete their comment.
       let verify = confirm("Are you sure you want to delete your comment?");
       if (verify) {
         axios.request({
@@ -104,6 +116,7 @@ export default {
           },
         }).then((res) => {
           console.log(res.data);
+          // Used the filter method to remove a comment from the displayed comments.
           this.comments = this.comments.filter(function(item) {
             if (item.commentId == comment.commentId) {
               return false;
@@ -116,10 +129,12 @@ export default {
         });
       }
     },
+    // This method displays and hides the text area for editing comments.
     showEditComment(comment) {
       let editComment = document.querySelectorAll(`[commentId="${comment.commentId}"]`);
       editComment[0].classList.toggle("hidden");
     },
+   // Configuring the request to enable the user edit their comment.
     editComment(comment) {
       let editContentComment = document.querySelectorAll(`[commentContentId="${comment.commentId}"]`);
       let content = editContentComment[0].value;
@@ -137,6 +152,7 @@ export default {
         },
       }).then((res) => {
         console.log(res);
+        // On success the comment text area is hidden.
         this.showEditComment(comment);
       
       }).catch((err) => {
@@ -144,6 +160,7 @@ export default {
         this.errorMessage = err;
       });
     },
+    // Configuring the request to enable the user to like a comment.
     like(comment) {
       axios.request({
         url: "https://tweeterest.ml/api/comment-likes",
@@ -158,8 +175,11 @@ export default {
         },
       }).then((res) => {
         console.log(res);
+        // The amount of likes get incremented by 1 .
         comment.likes += 1;
+        //  This is set to true to determine that the user liked the comment.
         comment.isLiked = true;
+        // Triggers a rerender.
         this.rerender += 1;
 
       }).catch((err) => {
@@ -167,6 +187,7 @@ export default {
         this.errorMessage = err;
       });
     },
+    // Configuring the request to enable the user to unlike a comment.
     unlike(comment) {
       axios.request({
         url: "https://tweeterest.ml/api/comment-likes",
@@ -181,8 +202,11 @@ export default {
         },
       }).then((res) => {
         console.log(res);
+        // The number of likes gets decremented by 1.
         comment.likes -= 1;
+        //  This is set to true to determine that the user did not like the comment.
         comment.isLiked = false;
+        // Triggers a rerender.
         this.rerender += 1;
 
       }).catch((err) => {
@@ -192,6 +216,7 @@ export default {
     },
   },
   mounted () {
+    // Configuring the request to enable the user to retrieve a post.
     axios.request({
       url: "https://tweeterest.ml/api/tweets",
       method: "GET",
@@ -213,7 +238,7 @@ export default {
       console.log(err);
       this.errorMessage = err;
     });
-  
+    // Configuring the request to get comments that are made on a post.
     axios.request({
       url: "https://tweeterest.ml/api/comments",
       method: "GET",
@@ -227,6 +252,7 @@ export default {
     }).then((res) => {
       let comments = res.data;
       console.log(res.data);
+      // For of loop used to get the like for each comment.
       for (const comment of comments) {
         axios.request({
           url: "https://tweeterest.ml/api/comment-likes",
@@ -239,13 +265,16 @@ export default {
             commentId: comment.commentId,
           },
         }).then((res) => {
+          // On success this sets the amount of likes.
           comment.likes = res.data.length;
+          // This determines if we liked the comment.
           comment.isLiked = false;
           for (const like of res.data) {
             if (this.$store.state.userInfo.userId == like.userId) {
               comment.isLiked = true;
             }
           }
+          // This rerenders the page.
           this.rerender += 1;
         }).catch((err) => {
           console.log(err);
@@ -336,10 +365,6 @@ textarea {
 
 @media screen and (min-width: 600px) {
   main {
-    /* background-image: url("../assets/cowEdit.jpg");
-    height: 94vh;
-    background-size: contain;
-    background-repeat: no-repeat; */
     max-width: 700px;
     display: grid;
   }

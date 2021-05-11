@@ -1,3 +1,4 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div id="app">
     <router-view/>
@@ -7,12 +8,9 @@
 <script>
 import cookies from "vue-cookies";
 
-// import SidePanel from './components/SidePanel.vue';
-// import MobileHam from './components/MobileHam.vue';
-
-
-
 export default {
+  // This hook runs when the page loads.
+  // The cookie is retrieved from the store and logs in the user.
   created () {
     let userInfo = cookies.get('userInfo');
     if (userInfo) {
@@ -36,10 +34,6 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
-/* #nav {
-  padding: 30px;
-} */
 
 #nav a {
   font-weight: bold;

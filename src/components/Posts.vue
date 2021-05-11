@@ -1,10 +1,15 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
+  <!-- Rerendering the component to display likes and posts in real time. -->
   <div class="postsContainer" :key="rerender">
     <article v-for="post of posts" :key="post.tweetId">
         <div>
+          <!-- Redirects user to the Moo page.
+            Takes in params of userId and mooId to show posts made on a comment.
+          -->
           <router-link class="twoCol" :to="{name: 'Moos', params:{userId: post.userId, mooId: post.tweetId} }">
-            <img v-if="post.userImageUrl" :src="post.userImageUrl" alt="">
-            <img  v-else src="../assets/cow.jpg" alt="">
+            <img v-if="post.userImageUrl" :src="post.userImageUrl">
+            <img  v-else src="../assets/cow.jpg" alt="Cows at the beach laying on the sand and in the water.">
             <div>
               <p class="boldName" >{{ post.username }}</p>
               <p>{{ post.content }}</p>
@@ -13,6 +18,7 @@
             
           <div class="hidden editComment" :postId="post.tweetId">
             <textarea name="editComment" :postContentId="post.tweetId" cols="30" rows="04" v-model="post.content"></textarea>
+            <!-- This gives the user the ability to edit their post -->
             <button @click="editPost(post)">Submit</button>
           </div>
 
@@ -20,10 +26,14 @@
       <div class="editButton">
         <i class="far fa-comment-dots"></i>
         <span class="likes">
+          <!-- This gives the user the ability to like a post -->
           <span v-if="!post.isLiked"><i @click="like(post)" class="far fa-heart"></i>: {{ post.likes }}</span>
+          <!-- This gives the user the ability to unlike a post -->
           <span v-else><span class="liked"><i @click="unlike(post)" class="far fa-heart"></i></span>: {{ post.likes }}</span>
         </span>
+        <!-- This gives the user the ability to show the post they are editing -->
         <i v-if="currentUser.userId == post.userId" @click="showEditPost(post)" class="fas fa-pencil-alt"></i>
+        <!-- This gives the user the ability to delete their post -->
         <i @click="deleteMoo(post)" v-if="currentUser.userId == post.userId" class="far fa-trash-alt"></i>
       </div>
     </article>
@@ -44,18 +54,23 @@ export default {
     return {
       posts: [],
       errorMessage: "",
+      // This is used to rerender the component.
       rerender: 0,
     }
   },
   computed: {
+    // This returns the current user from the store.
     currentUser() {
       return this.$store.state.userInfo; 
     }
   },
+  // This runs when the component is added to the page.
+  // The users post is retrieved and gets added to the posts property of the component.
   mounted () {
     this.getPosts(this.userIds);
   },
   methods: {
+     // Configuring the request to display posts of current user. 
     getPosts(userIds) {
       for (const userId of userIds) {    
         axios.request({
@@ -69,8 +84,9 @@ export default {
             userId: userId,
           },
         }).then((res) => {
+          // On success our the array of posts gets populated
           let posts = res.data.concat(this.posts);
-
+          // Configuring the request to get the likes for each post.
           for (const post of posts) {
             axios.request({
               url: "https://tweeterest.ml/api/tweet-likes",
@@ -83,19 +99,25 @@ export default {
                 tweetId: post.tweetId,
               },
             }).then((res) => {
+              // On success the post object is populated with the amount of likes.
               post.likes = res.data.length;
+              // Is only populated which depends if the current user liked the post.
               post.isLiked = false;
+              // Using a for of loop to see if the current user liked the post.
               for (const like of res.data) {
                 if (this.$store.state.userInfo.userId == like.userId) {
                   post.isLiked = true;
                 }
               }
+              // Rerendering the component.
               this.rerender += 1;
             }).catch((err) => {
               console.log(err);
               this.errorMessage = err;
             });
           }
+          // Using the sort method to sort posts by the createdAt property.
+          // Posts are sorted by the most recent post made.
           posts = posts.sort((first, second) => {
             if (first.createdAt < second.createdAt) {
               return 1;
@@ -111,6 +133,7 @@ export default {
         });
       }
     },
+    // Configuring the request to enable the user to like a post.
     like(post) {
       axios.request({
         url: "https://tweeterest.ml/api/tweet-likes",
@@ -124,8 +147,11 @@ export default {
           loginToken: this.$store.state.userInfo.loginToken
         },
       }).then((res) => {
+        // The number of likes gets incremented by 1.
         post.likes += 1;
+        // The current user is set to determine if they liked the post.
         post.isLiked = true;
+        // Rerenders the component.
         this.rerender += 1;
         console.log(res);
       }).catch((err) => {
@@ -133,6 +159,7 @@ export default {
         this.errorMessage = err;
       });
     },
+    // Configuring the request to enable the user to unlike post.
     unlike(post) {
       axios.request({
         url: "https://tweeterest.ml/api/tweet-likes",
@@ -146,8 +173,11 @@ export default {
           loginToken: this.$store.state.userInfo.loginToken
         },
       }).then((res) => {
+        // The number of likes gets decremented by 1.
         post.likes -= 1;
+        // The current user is set to determine if they didn't liked the post.
         post.isLiked = false;
+        // Rerenders the component.
         this.rerender += 1;
         console.log(res);
         
@@ -156,7 +186,9 @@ export default {
         this.errorMessage = err;
       });
     },
+    // Configuring the request to enable the user to delete a post.
     deleteMoo(post) {
+      // A confirmation box appears with a confirmation message to verify if the user wants to delete a post
       let verify = confirm("Are you sure you want to delete your MOO?");
       if (verify) {
         axios.request({
@@ -171,12 +203,14 @@ export default {
             loginToken: this.$store.state.userInfo.loginToken
           },
         }).then((res) => {
+          // Uses the filter method to remove deleted post from posts.
           this.posts = this.posts.filter(function(item) {
             if (item.tweetId == post.tweetId) {
               return false;
             }
             return true;
           });
+          // Rerenders the component.
           this.rerender += 1;
           console.log(res);
         }).catch((err) => {
@@ -185,10 +219,12 @@ export default {
         });
       }
     },
+    // This method displays and hides the textarea for the user to edit their post.
     showEditPost(tweet) {
       let editPost = document.querySelectorAll(`[postId="${tweet.tweetId}"]`);
       editPost[0].classList.toggle("hidden");
     },
+    // Configuring the request to enable the user to edit their post.
     editPost(tweet) {
       let editContentPost = document.querySelectorAll(`[postContentId="${tweet.tweetId}"]`);
       let content = editContentPost[0].value;
@@ -206,6 +242,7 @@ export default {
         },
       }).then((res) => {
         console.log(res);
+        // This hides the textarea from the user.
         this.showEditPost(tweet);
       
       }).catch((err) => {
@@ -216,6 +253,7 @@ export default {
   
   },
   watch: {
+    // This method watches for changes made to the user id to rerender and display all the posts.
     userIds(newUserIds) {
       this.getPosts(newUserIds);
     }

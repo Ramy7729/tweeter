@@ -32,10 +32,6 @@ img {
 
 @media screen and (min-width: 900px) {
   main {
-    /* background-image: url("../assets/cowEdit.jpg");
-    height: 94vh;
-    background-size: contain;
-    background-repeat: no-repeat; */
     max-width: 700px;
     display: grid;
     place-items: center;

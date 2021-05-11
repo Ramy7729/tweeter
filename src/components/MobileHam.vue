@@ -3,7 +3,7 @@
     <div  class="logo">
       <img src="../assets/cowIcon.svg" alt="face of a cartoon cow" />
       <h1>MOO</h1>
-      <router-link  class="signOut" to="/"><h2 @click="signOut" >Sign Out</h2></router-link>
+      <div class="signOut"><h2 @click="signOut" >Sign Out</h2></div>
     </div>
     <div></div>
     <div class="headerNav mobileDisplay">
@@ -19,12 +19,11 @@
             <router-link to="/tweetermain"><li>Home</li></router-link>
             <router-link :to="{name: 'Profile', params: { id: user.userId }}"><li>Profile</li></router-link>
             <router-link to="/users"><li>Users</li></router-link>
-            <router-link to="/"><li @click="signOut" >Sign Out</li></router-link>
+            <li @click="signOut">Sign Out</li>
           </ul>
         </div>
       </nav>
     </div>
-    <!-- <img src="../assets/user.svg" alt=""> -->
   </header>
 </template>
 
@@ -32,8 +31,12 @@
 export default {
   name: "mobile-ham",
   methods: {
+    // This method commits a mutation from the store and logs out the user.
     signOut() {
+      // Logs out the user.
       this.$store.commit('logoutUser');
+      // Redirects them to the Login page.
+      this.$router.push({name: 'Login'});
     }
   },
   computed: {
@@ -45,9 +48,6 @@ export default {
 </script>
 
 <style scoped>
-/* img {
-  height: 47px;
-} */
 header {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -109,6 +109,7 @@ ul {
 li {
   padding: 7px 0;
   font-size: 18px;
+  color: white;
 }
 
 .logo {
@@ -132,7 +133,10 @@ h1 {
 }
 .signOut:hover {
   cursor: pointer;
-  color: #FE6D73;
+  color: #F6AFAF;
+}
+.signOut {
+  display: none;
 }
 
 @media screen and (min-width: 900px) {
@@ -145,14 +149,15 @@ h1 {
   .signOut {
     position: absolute;
     right: 0;
-    font-size: 1.3em;
-    /* background-color: #0e6b0e; */
+    font-size: 1.5em;
     color: black;
     border: 2px solid black;
     width: 10vw;
     padding: 9px 15px;
+    margin-top: 7px;
     margin-right: 5px;
     border-radius: 4px;
+    display: block;
   }
 }
 </style>

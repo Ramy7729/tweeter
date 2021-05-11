@@ -1,3 +1,4 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div>
     <mobile-ham/>
@@ -5,15 +6,21 @@
     <main>
       <div class="center">
         <section class="mainGrid">
+          <!-- Binding userId to get the userId of the logged in person.
+            Doing so will display the profile card of the person who is currently logged in.
+           -->
           <profile-card :userId="userId"/>
           <div>
             <textarea name="postContent" id="postContent" cols="30" rows="4" placeholder="Make a MOO" ></textarea>
           </div>
           <div class="tweetButton">
             <img class="noMobile" src="../assets/cowLottie.gif" alt="">
+            <!-- This at click event submits the post when the user clicks on the button -->
             <button @click="submitPost">MOO</button>
           </div>
-          <posts class="noDeco" :userIds="followingUserIds" :key="rerender"/>
+          <!-- Binding userIds to display posts made by the users we are following. -->
+          <!-- Setting a key here allows the component to re-render which displays a newly made post in real time.-->
+          <posts :userIds="followingUserIds" :key="rerender"/>
         </section>
       </div>
     </main>
@@ -44,11 +51,13 @@ export default {
     };
   },
   computed: {
+    // This returns the current user's id.
     userId() {
       return this.$store.state.userInfo.userId; 
     },
   },
   mounted () {
+    // Gets our user id and the users that we are following.
     let followingUserIds = [
       this.$store.state.userInfo.userId,
     ];
@@ -63,6 +72,7 @@ export default {
         userId: this.$store.state.userInfo.userId,
       },
     }).then((res) => {
+      // For of loop that populates the list of users we are following.
       for (const user of res.data) {
         followingUserIds.push(user.userId);
       }
@@ -73,11 +83,14 @@ export default {
     });
   },
   methods: {
+    // This method allows the user to make a post.
     submitPost() {
+      // If statement that displays an error message if the post is empty.
       if (!document.getElementById("postContent").value) {
         this.errorMessage = "Please enter your message";
         return;
       }
+      // Configuring the request to enable the user to make a post.
       axios.request({
         url: "https://tweeterest.ml/api/tweets",
         method: "POST",
@@ -92,6 +105,7 @@ export default {
       }).then((res) => {
         console.log(res);
         document.getElementById("postContent").value = "";
+        // Rerenders the page.
         this.rerender += 1;
       }).catch((err) => {
         console.log(err);

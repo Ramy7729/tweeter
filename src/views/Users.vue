@@ -1,3 +1,4 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div>
     <mobile-ham/>
@@ -5,7 +6,8 @@
     <div class="center"> 
       <main> 
         <div>
-          <div  >
+          <div>
+            <!-- This for loop displays the profile for the user that is logged in -->
             <profile-card v-for="user of users" :key="user.userId" :user="user" class="border" />
           </div>
         </div>   
@@ -33,7 +35,11 @@ export default {
     ProfileCard,
     SidePanel,
   },
+  // A mounted hook is used to make our API requests.
+  
   mounted () {
+    // Configuring the request to get all user data.
+    // This requires us to not send any data to the api.
     axios.request({
       url: "https://tweeterest.ml/api/users",
       method: "GET",
@@ -41,7 +47,8 @@ export default {
         "Content-Type": "application/json",
         "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
       },
-    }).then((res) => {
+   // On success another request is made that gets data for all users we are following.
+   }).then((res) => {
       let allUsers = res.data;
       axios.request({
         url: "https://tweeterest.ml/api/follows",
@@ -50,18 +57,22 @@ export default {
           "Content-Type": "application/json",
           "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
         },
+        // Sending data to the api (userId).
         params: {
           userId: this.$store.state.userInfo.userId,
         }
       }).then((res) => {
         let followedUsers = res.data;
+        // Used a for of loop to determine if we are following any users.
         for (const user of allUsers) {
+          //  The property isFollowed determines if we are following a user or not.
           user.isFollowed = false;
           for (const followedUser of followedUsers) {
             if (user.userId == followedUser.userId) {
               user.isFollowed = true;
             }
           }
+          // Using the push method to add a user to the list of users.
           this.users.push(user);
         }
       }).catch((err) => {

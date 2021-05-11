@@ -1,15 +1,17 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div>
     <mobile-ham/>
     <side-panel/>
     <main>
-      <div class="center" >
+      <div class="center">
+        <!-- Form for the user to edit their profile as needed. -->
         <form action="javascript:void(0)">
           <div class="flex">  
             <h2>Edit Profile</h2>
             <img src="../assets/cowLottie.gif" alt="Animated cartoon cow jumping up and down.">
            </div>  
-          <h2 class="noMobile" >Edit Profile</h2>
+          <h2 class="noMobile">Edit Profile</h2>
           <input type="text" id="usernameInput" placeholder="Username" :value="user.username"/>
           <input type="text" id="emailInput" placeholder="Email" :value="user.email"/>
           <input type="date" id="birthDateInput" placeholder="Date of Birth" :value="user.birthdate"/>
@@ -17,10 +19,12 @@
           <input type="text" id="userImage" placeholder="Enter a url for your image" :value="user.imageUrl"/>
           <input type="text" id="userBanner" placeholder="Enter a url for your banner" :value="user.bannerUrl"/>
           <h1>{{ errorMessage }}</h1>
+          <!-- This click event allows the user to edit then save any changes made to their profile. -->
           <button @click="edit">Save</button>
         </form>
         <form action="javascript:void(0)">
           <input type="text" name="delete" id="delete" placeholder="Enter your password to delete profile">
+          <!-- This click event allows the user to delete their profile. -->
           <button @click="deleteProfile">ReMOOve Profile</button>
         </form>
       </div>
@@ -41,17 +45,18 @@ export default {
       SidePanel,
   },
   data() {
-    MobileHam
     return {
       errorMessage: "",
     };
   },
   computed: {
+   // This returns the current user that is logged in.
     user() {
       return this.$store.state.userInfo;
     }
   },
   methods: {
+    // Configuring the request to enable the user to edit their profile.
     edit() {
       axios.request({
         url: "https://tweeterest.ml/api/users",
@@ -60,6 +65,7 @@ export default {
           "Content-Type": "application/json",
           "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
         },
+        // The required data properties are sent with specific values inputted by the user.
         data: {
           email: document.getElementById("emailInput").value,
           username: document.getElementById("usernameInput").value,
@@ -71,15 +77,19 @@ export default {
           
         },
       }).then((res) => {
-        console.log(res.data);
+        console.log(res.data)
+        // On success the login token is saved
         res.data.loginToken = this.$store.state.userInfo.loginToken;
+        // The users data is then saved to the store.
         this.$store.commit('loginUser', res.data);
+        // The user is redirected to their profile page.
         this.$router.push({name: 'Profile', params: { id: this.$store.state.userInfo.userId }});
       }).catch((err) => {
         console.log(err);
         this.errorMessage = err;
       });
     },
+    // Configuring the request to enable the user to delete their profile.
     deleteProfile() {
       axios.request({
         url: "https://tweeterest.ml/api/users",
@@ -94,7 +104,9 @@ export default {
         },
       }).then((res) => {
         console.log(res.data);
+        // On success this will log out the user.
         this.$store.commit('logoutUser');
+        // The user is redirected to their login page.
         this.$router.push({name: 'Login'});
       }).catch((err) => {
         console.log(err);
@@ -143,14 +155,7 @@ img {
   display: none;
 }
 
-
 @media screen and (min-width: 600px) {
-  /* main {
-    background-image: url("../assets/cowEdit.jpg");
-    height: 94vh;
-    background-size: contain;
-    background-repeat: no-repeat;
-  } */
   .center {
   position: absolute;
   top: 50%;
@@ -164,7 +169,5 @@ img {
     display: block;
     font-size: 1.7em;
   }
-
 }
-
 </style>

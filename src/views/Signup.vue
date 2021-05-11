@@ -1,6 +1,8 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div>
     <main>
+      <!-- Form for the user to sign up and create an account. -->
       <form action="javascript:void(0)">
       <h1>MOO.</h1>
       <h2>Create your account</h2>
@@ -21,6 +23,7 @@
         <input type="text" id="userBanner" placeholder="Enter a url for your banner"/>
       </div>  
         <h1>{{ errorMessage }}</h1>
+        <!-- This click event allows the user to create their account. -->
         <button @click="signup">Sign up</button>
       </form>
     </main>
@@ -38,31 +41,46 @@ export default {
     };
   },
   methods: {
+    // This method allows the sign up of a user.
+    // Conditional statements are used for data validation which checks for user input.
     signup() {
+      // This checks to see if the passwords match.
+      // If they don't match  an error message is displayed.
       if (document.getElementById("passwordInput1").value !== document.getElementById("passwordInput2").value  ) {
         this.errorMessage = "Passwords do not match. Retype password";
         return;
       }
+      // This checks to see if a username was entered.
+      // If they don't match  an error message is displayed.
       if (!document.getElementById("usernameInput").value) {
         this.errorMessage = "Please enter a name";
         return;
       }
+      // This checks to see if an email was entered.
+      // If they don't match  an error message is displayed.
       if (!document.getElementById("emailInput").value) {
         this.errorMessage = "Please enter an email";
         return;
       }
+      // This checks to see if a password was entered.
+      // If they don't match  an error message is displayed.
       if (!document.getElementById("passwordInput1").value) {
         this.errorMessage = "Please enter your password";
         return;
       }
+      // This checks to see if a birth date was entered.
+      // If they don't match  an error message is displayed.
       if (!document.getElementById("birthDateInput").value) {
         this.errorMessage = "Please enter your birth date";
         return;
       }
+      // This checks to see if the user's bio was entered.
+      // If they don't match an error message is displayed.
       if (!document.getElementById("bioInput").value) {
         this.errorMessage = "Please enter your bio";
         return;
       }
+      // Configuring the request to enable the creation of a new user.
       axios.request({
         url: "https://tweeterest.ml/api/users",
         method: "POST",
@@ -70,6 +88,8 @@ export default {
           "Content-Type": "application/json",
           "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
         },
+        
+        // The required data properties are sent with specific values inputted by the user.
         data: {
           email: document.getElementById("emailInput").value,
           username: document.getElementById("usernameInput").value,
@@ -81,7 +101,9 @@ export default {
         },
       }).then((res) => {
         console.log(res);
+        // On success a mutation is committed (loginUser) and  sets a cookie which logs in a user.
         this.$store.commit('loginUser', res.data);
+        // The user is then redirected to the home page (TweeterMain).
         this.$router.push({name: 'TweeterMain'});
       }).catch((err) => {
         console.log(err);

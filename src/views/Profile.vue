@@ -1,14 +1,18 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <div>
     <mobile-ham/>
     <side-panel/>
     <div class="center" >  
       <main>
-      
         <div> 
           <profile-card :userId="userId"/>
+          <!-- This if statement allows the user to edit their profile. 
+             If the user id is that of the current logged in user, an edit profile button will be visible.
+          -->
           <router-link v-if="userId == loginId" to="/profileedit"><button>Edit Profile</button></router-link>  
         </div> 
+          <!-- This displays posts that were made by the current logged in user. -->
           <posts :userIds="[userId]" />
       </main>
     </div>  
@@ -32,9 +36,12 @@ export default {
     SidePanel,
   },
   computed: {
+    // This returns the user id from the url.
+    // The parseInt method is used to convert the id's data type (string) into an integer.
     userId() {
       return parseInt(this.$route.params.id); 
     },
+    // This returns the logged in user's id, which is retrieved from the store.
     loginId() {
       return this.$store.state.userInfo.userId;
     }
@@ -53,7 +60,6 @@ export default {
 .twoColGrid {
   display: grid;
   grid-template-columns: 1fr 1fr; 
-  /* place-items: center; */
   column-gap: 30px;
   padding: 17px;
 }

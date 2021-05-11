@@ -1,3 +1,4 @@
+<!-- Collaborated with Liz for this project. -->
 <template>
   <main>
     <div class="heroText" >
@@ -7,6 +8,7 @@
     <form action="javascript:void(0)">
       <input type="text" id="emailInput" placeholder="email" />
       <input type="password" id="passwordInput" placeholder="password" />
+      <!-- This gives the user the ability to log in -->
       <button @click="login">Login</button>
       <p>{{ errorMessage }}</p>
 			<router-link to="/signup"><button class="signupButton" >Sign Up</button></router-link>
@@ -27,16 +29,22 @@ export default {
   },
 
   methods: {
+    // This method is used to log in a user.
+    // // Conditional statements are used for data validation which checks for user input.
     login() {
+      // This checks to see if an email was entered.
+      // If they don't match  an error message is displayed.
       if (!document.getElementById("emailInput").value) {
         this.errorMessage = "Please enter an email";
         return;
       } 
+      // This checks to see if a password was entered.
+      // If they don't match  an error message is displayed.
       if (!document.getElementById("passwordInput").value) {
         this.errorMessage = "Please enter your password";
         return;
       }
-
+      // Configuring the request to enable the user to log in.
       axios.request({
         url: "https://tweeterest.ml/api/login",
         method: "POST",
@@ -50,7 +58,9 @@ export default {
         },
       }).then((res) => {
         console.log(res);
+        // On success a mutation is committed from the store which logs in the user.
         this.$store.commit('loginUser', res.data);
+        // The user is then redirected to the home page (TweeterMain).
         this.$router.push({name: 'TweeterMain'})
       }).catch((err) => {
         if (err.response.status == 403) {

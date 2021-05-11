@@ -1,6 +1,6 @@
+// Collaborated with Liz for this project.
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
 import TweeterMain from '../views/TweeterMain.vue';
@@ -28,6 +28,7 @@ const routes = [
     component: TweeterMain
   },
   {
+    // Using a dynamic segment in the path (:id) to pass in params.
     path: '/profile/:id',
     name: 'Profile',
     component: Profile
@@ -43,6 +44,7 @@ const routes = [
     component: ProfileEdit
   },
   {
+    // Using a dynamic segment in the path (:userId and :mooId) to pass in params.
     path: '/moos/:userId/:mooId',
     name: 'Moos',
     component: Moos
