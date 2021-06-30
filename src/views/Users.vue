@@ -41,7 +41,7 @@ export default {
     // Configuring the request to get all user data.
     // This requires us to not send any data to the api.
     axios.request({
-      url: "https://tweeterest.ml/api/users",
+      url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export default {
    }).then((res) => {
       let allUsers = res.data;
       axios.request({
-        url: "https://tweeterest.ml/api/follows",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/follows`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",

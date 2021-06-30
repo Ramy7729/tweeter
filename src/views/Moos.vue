@@ -77,7 +77,7 @@ export default {
     // Configuring the request to enable the user to make a comment.
     reply() {
       axios.request({
-        url: "https://tweeterest.ml/api/comments",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comments`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,6 +92,8 @@ export default {
         // On success the comment input is cleared.
         document.getElementById("comment").value = '';
         // The comment then gets added to the comments that are displayed.
+        res.data.likes = 0;
+        res.data.isLiked = false;
         this.comments.push(res.data);
       }).catch((err) => {
         console.log(err);
@@ -104,7 +106,7 @@ export default {
       let verify = confirm("Are you sure you want to delete your comment?");
       if (verify) {
         axios.request({
-          url: "https://tweeterest.ml/api/comments",
+          url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comments`,
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -139,7 +141,7 @@ export default {
       let editContentComment = document.querySelectorAll(`[commentContentId="${comment.commentId}"]`);
       let content = editContentComment[0].value;
       axios.request({
-        url: "https://tweeterest.ml/api/comments",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comments`,
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -163,7 +165,7 @@ export default {
     // Configuring the request to enable the user to like a comment.
     like(comment) {
       axios.request({
-        url: "https://tweeterest.ml/api/comment-likes",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comment-likes`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -190,7 +192,7 @@ export default {
     // Configuring the request to enable the user to unlike a comment.
     unlike(comment) {
       axios.request({
-        url: "https://tweeterest.ml/api/comment-likes",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comment-likes`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -218,7 +220,7 @@ export default {
   mounted () {
     // Configuring the request to enable the user to retrieve a post.
     axios.request({
-      url: "https://tweeterest.ml/api/tweets",
+      url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweets`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -240,7 +242,7 @@ export default {
     });
     // Configuring the request to get comments that are made on a post.
     axios.request({
-      url: "https://tweeterest.ml/api/comments",
+      url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comments`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -255,7 +257,7 @@ export default {
       // For of loop used to get the like for each comment.
       for (const comment of comments) {
         axios.request({
-          url: "https://tweeterest.ml/api/comment-likes",
+          url: `${process.env.VUE_APP_BASE_DOMAIN}/api/comment-likes`,
           method: "GET",
           headers: {
             "Content-Type": "application/json",

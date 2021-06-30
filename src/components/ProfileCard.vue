@@ -65,7 +65,7 @@ export default {
     }
     // Configuring the request to get the users data.
     axios.request({
-      url: "https://tweeterest.ml/api/users",
+      url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export default {
       let user = res.data[0];
       // Configuring the request to verify if we are following a user.
       axios.request({
-        url: "https://tweeterest.ml/api/follows",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/follows`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export default {
      // Configuring the request to enable the user to follow a user.
     follow() {
       axios.request({
-        url: "https://tweeterest.ml/api/follows",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/follows`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export default {
      // Configuring the request to enable the user to unfollow a user.
     unfollow() {
       axios.request({
-        url: "https://tweeterest.ml/api/follows",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/follows`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

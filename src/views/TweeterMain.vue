@@ -62,7 +62,7 @@ export default {
       this.$store.state.userInfo.userId,
     ];
     axios.request({
-      url: "https://tweeterest.ml/api/follows",
+      url: `${process.env.VUE_APP_BASE_DOMAIN}/api/follows`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default {
       }
       // Configuring the request to enable the user to make a post.
       axios.request({
-        url: "https://tweeterest.ml/api/tweets",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweets`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",

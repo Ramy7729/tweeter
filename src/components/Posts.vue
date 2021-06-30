@@ -74,7 +74,7 @@ export default {
     getPosts(userIds) {
       for (const userId of userIds) {    
         axios.request({
-          url: "https://tweeterest.ml/api/tweets",
+          url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweets`,
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export default {
           // Configuring the request to get the likes for each post.
           for (const post of posts) {
             axios.request({
-              url: "https://tweeterest.ml/api/tweet-likes",
+              url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweet-likes`,
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -136,7 +136,7 @@ export default {
     // Configuring the request to enable the user to like a post.
     like(post) {
       axios.request({
-        url: "https://tweeterest.ml/api/tweet-likes",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweet-likes`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ export default {
     // Configuring the request to enable the user to unlike post.
     unlike(post) {
       axios.request({
-        url: "https://tweeterest.ml/api/tweet-likes",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweet-likes`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -192,7 +192,7 @@ export default {
       let verify = confirm("Are you sure you want to delete your MOO?");
       if (verify) {
         axios.request({
-          url: "https://tweeterest.ml/api/tweets",
+          url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweets`,
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -229,7 +229,7 @@ export default {
       let editContentPost = document.querySelectorAll(`[postContentId="${tweet.tweetId}"]`);
       let content = editContentPost[0].value;
       axios.request({
-        url: "https://tweeterest.ml/api/tweets",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/tweets`,
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

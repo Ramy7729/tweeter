@@ -82,7 +82,7 @@ export default {
       }
       // Configuring the request to enable the creation of a new user.
       axios.request({
-        url: "https://tweeterest.ml/api/users",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",

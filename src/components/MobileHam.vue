@@ -28,15 +28,30 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "mobile-ham",
   methods: {
     // This method commits a mutation from the store and logs out the user.
+    // Added a DELETE request to delete a user token when they log out.
     signOut() {
+      axios.request({
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/login`,
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "'X-Api-Key": `${process.env.VUE_APP_API_KEY}`,
+        },
+        data: {
+          loginToken: this.$store.state.userInfo.loginToken,
+        },
+      }).then(() => {
       // Logs out the user.
       this.$store.commit('logoutUser');
       // Redirects them to the Login page.
       this.$router.push({name: 'Login'});
+      });
     }
   },
   computed: {

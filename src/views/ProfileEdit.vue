@@ -59,7 +59,7 @@ export default {
     // Configuring the request to enable the user to edit their profile.
     edit() {
       axios.request({
-        url: "https://tweeterest.ml/api/users",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default {
     // Configuring the request to enable the user to delete their profile.
     deleteProfile() {
       axios.request({
-        url: "https://tweeterest.ml/api/users",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

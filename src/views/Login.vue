@@ -46,7 +46,7 @@ export default {
       }
       // Configuring the request to enable the user to log in.
       axios.request({
-        url: "https://tweeterest.ml/api/login",
+        url: `${process.env.VUE_APP_BASE_DOMAIN}/api/login`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
